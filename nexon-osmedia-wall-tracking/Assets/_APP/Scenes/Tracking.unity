@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f9df6f651c154488910ad08cd0b816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cols: 10
+  cols: 20
   rows: 10
   threshold: 0.7
   source: {fileID: 767632826}

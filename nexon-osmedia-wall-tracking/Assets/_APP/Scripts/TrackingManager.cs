@@ -81,8 +81,8 @@ public class TrackingManager : MonoBehaviour
           PixelateImage(x, y, pixelWidth, pixelHeight, color);
           resultTexture.Apply();
 
-          // save result
-          double convertedThreshold = 0.04 - Utils.Map(threshold, 0, 1, 0, 0.04);
+          // save result          
+          double convertedThreshold = 0.04 - Utils.Map(threshold, 0, 1, 0, 0.04); // 0 -> white, 0.04 -> black
           bool result = color.r < convertedThreshold;
           resultData.Add(result);
         }
