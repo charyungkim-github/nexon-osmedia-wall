@@ -1,0 +1,53 @@
+﻿Shader "Custom/DepthTracking" {
+	Properties {
+		
+		[PerRendererData]
+		_MainTex ("MainTex", 2D) = "black" {}
+		
+		[HideInInspector]
+		_Colormaps ("Colormaps", 2D) = "" {}
+
+		_DepthScale("Depth Multiplier Factor to Meters", float) = 0.001 
+		
+		_MinRange("Min Range(m)", Range(0, 10)) = 0.15
+		_MaxRange("Max Range(m)", Range(0, 20)) = 10.0
+
+		[KeywordEnum(Viridis,Plasma,Inferno,Jet,Rainbow,Coolwarm,Flag,Gray)]
+		_Colormap("Colormap", Float) = 0
+
+	}
+	SubShader {
+		Tags { "QUEUE"="Transparent" "IGNOREPROJECTOR"="true" "RenderType"="Transparent" "PreviewType"="Plane" }
+		Pass {
+			ZWrite Off
+			Cull Off
+			Fog { Mode Off }
+
+			CGPROGRAM
+			#pragma vertex vert_img
+			#pragma fragment frag
+
+			#include "UnityCG.cginc"
+
+			sampler2D _MainTex;
+			sampler2D _Colormaps;
+			float4 _Colormaps_TexelSize;
+			
+			float _Colormap;
+			float _MinRange;
+			float _MaxRange;
+			float _DepthScale;
+
+			half4 frag (v2f_img pix) : SV_Target
+			{
+				float z = tex2D(_MainTex, pix.uv).r * 0xffff * _DepthScale;
+				z = 1 - ((z - _MinRange) / (_MaxRange - _MinRange));
+				// z = (z - _MinRange) / (_MaxRange - _MinRange);
+				if(z <= 0) return 0;
+				return tex2D(_Colormaps, float2(z, 1 - (_Colormap + 0.5) * _Colormaps_TexelSize.y));
+			}
+			ENDCG
+		}
+	}
+	FallBack Off
+}
