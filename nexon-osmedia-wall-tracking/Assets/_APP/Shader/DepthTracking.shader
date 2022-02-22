@@ -4,7 +4,7 @@
 		[PerRendererData]
 		_MainTex ("MainTex", 2D) = "black" {}
 		
-		[HideInInspector]
+		// [HideInInspector]
 		_Colormaps ("Colormaps", 2D) = "" {}
 
 		_DepthScale("Depth Multiplier Factor to Meters", float) = 0.001 

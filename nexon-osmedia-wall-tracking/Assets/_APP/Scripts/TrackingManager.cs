@@ -1,131 +1,87 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TrackingManager : MonoBehaviour
 {
-  public int cols;
-  public int rows;
-  public float threshold = 0.5f;
-  public RawImage source;
-  public RawImage result;
-  public bool debugGUI = true;
-  public bool debugTexture = false;
+  public RenderTexture cameraRenderTexture;
+  public int width = 1920;
+  public int height = 1080;
+  public int cols = 48;
+  public int rows = 16;
+  public float depthThreshold = 0.7f;
 
-  // manager
   Manager manager;
-
-  // size
-  int width, height, pixelWidth, pixelHeight; 
-
-  // results
-  Texture2D resultTexture;
+  Texture2D trackingTexture;
   List<bool> resultData = new List<bool>();
+  int pixelWidth, pixelHeight;
 
   // debug
-  RectTransform resultRectTransform;
-  Vector2 debugOffset;
-  Vector2Int debugPixelSize;
+  // List<float> colorValues = new List<float>();
   GUIStyle style = new GUIStyle();
 
   void Start() {
-    
-    // need to modify, calibrate resolution
-    cols--;
-
     // manager
     manager = GetComponentInParent<Manager>();
-    
-    // webcam size
-    width = 1280; 
-    height = 720; 
+
+    // tracking texture
+    trackingTexture = new Texture2D(width, height);
+
+    // pixel size    
     pixelWidth = width / cols;
     pixelHeight = height / rows;
 
-    // result texture
-    resultTexture = new Texture2D(width, height);
-    result.texture = (Texture) resultTexture;
-
-    // debugs
-    resultRectTransform = result.GetComponent<RectTransform>();
-    debugOffset = Utils.GetLeftTopPosition(resultRectTransform);
-    debugPixelSize = Utils.GetPixelSize(resultRectTransform, cols, rows);
+    // gui style
     style.alignment = TextAnchor.MiddleCenter;
     style.normal.textColor = Color.red;
   }
-  
+
   void Update() {
-    if(source.texture) {
-      
-      // set variables on update for DEBUG
-      pixelWidth = width / cols ;
-      pixelHeight = height / rows;
+    // tracking
+    UpdateTexture();
+    GetTextureColors();
 
-      // convert image
-      ConvertImage();
-
-      // send result
-      manager.SendTrackingData(resultData);
-    }
+    // send result
+    manager.SendTrackingData(resultData);
   }
 
-  void ConvertImage() {
+  void UpdateTexture() {
+
+    // copy render texture to texture2d
+    RenderTexture.active = null;
+    RenderTexture.active = cameraRenderTexture;
+    trackingTexture.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+    trackingTexture.Apply();
+  }
+
+  void GetTextureColors() {
     
     // reset
-    resultData.Clear();
+    resultData.Clear();    
+    // colorValues.Clear();
 
     for (int y = 0; y < height; y += pixelHeight) {
       for (int x = 0; x < width; x += pixelWidth) {
-
-        // if(x + pixelWidth > width) continue;
         
         // get color
-        Color color = Utils.GetCenterColor((Texture2D)source.texture, x, y, pixelWidth, pixelHeight);
-
-        // pixelate image
-        if(debugTexture) {
-          PixelateImage(x, y, pixelWidth, pixelHeight, color);
-          resultTexture.Apply();
-        }
+        Color color = Utils.GetCenterColor((Texture2D)trackingTexture, x, y, pixelWidth, pixelHeight);
 
         // save result          
-        double convertedThreshold = 0.04 - Utils.Map(threshold, 0, 1, 0, 0.04); // 0 -> white, 0.04 -> black
-        bool result = color.r < convertedThreshold;
-        resultData.Add(result);
+        resultData.Add(color.r > depthThreshold);
+        // colorValues.Add(color.r);
       }
     }
   }
-
-
-  // Debug Drawing
-  void PixelateImage(int x, int y, float width, float height, Color color) {
-    
-    for(int i = x; i < x + width; i++) {
-      for(int j = y; j < y + height; j++) {
-        resultTexture.SetPixel(i, j, color);
-      }
-    }
-  }
-
   void OnGUI() {
-
-    if(!debugGUI) return;
     if(resultData.Count < 1) return;
-    
-    // set variables on update for DEBUG
-    debugOffset = Utils.GetLeftTopPosition(resultRectTransform);
-    debugPixelSize = Utils.GetPixelSize(resultRectTransform, cols, rows);
-    
+
     int index = 0;
-    for (int y=0; y<resultRectTransform.sizeDelta.y; y+=debugPixelSize.y) {
-      for (int x=0; x<resultRectTransform.sizeDelta.x; x+=debugPixelSize.x) {
-
-        // if(x + debugPixelSize.x > resultRectTransform.sizeDelta.x) continue;
-        // if(index >= resultData.Count) continue;
-
+    for (int y = 0; y < height; y += pixelHeight) {
+      for (int x = 0; x < width; x += pixelWidth) {
+        
+        // string val = string.Format("{0:N2}", colorValues[index]);
         style.normal.textColor = resultData[index] ? Color.red : Color.gray;
-        GUI.Box(new Rect(x + debugOffset.x, y + debugOffset.y, debugPixelSize.x, debugPixelSize.y), index.ToString(), style);
+        GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), index.ToString(), style);
         index ++;
       }
     }

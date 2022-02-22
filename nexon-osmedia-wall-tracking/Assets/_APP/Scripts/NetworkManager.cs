@@ -53,7 +53,7 @@ public class NetworkManager : MonoBehaviour
 
     socket.Emit("tracking-data", json);
 
-    Debug.Log("send : " + json);
+    // Debug.Log("send : " + json);
   }
 
   void Update() { }
