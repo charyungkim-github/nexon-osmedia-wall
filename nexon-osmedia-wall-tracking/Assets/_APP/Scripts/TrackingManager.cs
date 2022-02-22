@@ -54,10 +54,10 @@ public class TrackingManager : MonoBehaviour
     style.alignment = TextAnchor.MiddleCenter;
     style.normal.textColor = Color.red;
   }
-
+  
   void Update() {
     if(source.texture) {
-
+      
       // set variables on update for DEBUG
       pixelWidth = width / cols ;
       pixelHeight = height / rows;
@@ -79,9 +79,9 @@ public class TrackingManager : MonoBehaviour
       for (int x = 0; x < width; x += pixelWidth) {
 
         // if(x + pixelWidth > width) continue;
-          
-        // get avr color          
-        Color color = Utils.GetAvrColor((Texture2D)source.texture, x, y, pixelWidth, pixelHeight);
+        
+        // get color
+        Color color = Utils.GetCenterColor((Texture2D)source.texture, x, y, pixelWidth, pixelHeight);
 
         // pixelate image
         if(debugTexture) {
@@ -122,7 +122,7 @@ public class TrackingManager : MonoBehaviour
       for (int x=0; x<resultRectTransform.sizeDelta.x; x+=debugPixelSize.x) {
 
         // if(x + debugPixelSize.x > resultRectTransform.sizeDelta.x) continue;
-        if(index >= resultData.Count) continue;
+        // if(index >= resultData.Count) continue;
 
         style.normal.textColor = resultData[index] ? Color.red : Color.gray;
         GUI.Box(new Rect(x + debugOffset.x, y + debugOffset.y, debugPixelSize.x, debugPixelSize.y), index.ToString(), style);

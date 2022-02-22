@@ -20,7 +20,7 @@ io.on('connection', function(socket){
       console.log('received : ', data)
 
       // send positions to game app
-      // io.emit('tracking-data', data)
+      io.emit('tracking-data', data)
   })
 
   // on disconnect

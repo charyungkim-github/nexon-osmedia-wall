@@ -23,6 +23,12 @@ public class Utils : MonoBehaviour{
     return color;
   }
 
+  public static Color GetCenterColor(Texture2D texture, int x, int y, float width, float height) {
+    int centerX = (int) (x + (width/2));
+    int centerY = (int) (y + (height/2));
+    return texture.GetPixel(centerX, centerY);
+  }
+
   public static Vector2 GetLeftTopPosition(RectTransform target) {
     return new Vector2(target.position.x + target.rect.xMin, target.position.y + target.rect.yMin);
   }
@@ -33,5 +39,5 @@ public class Utils : MonoBehaviour{
 
   public static double Map(double x, double in_min, double in_max, double out_min, double out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-  }  
+  }
 }
