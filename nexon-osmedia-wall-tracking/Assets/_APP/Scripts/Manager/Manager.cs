@@ -19,15 +19,12 @@ public class Manager : MonoBehaviour
   {
     settingsManager = GetComponentInChildren<SettingsManager>();
     networkManager = GetComponentInChildren<NetworkManager>();
-    trackingManager = GetComponentInChildren<TrackingManager>();
-    settingsManager.Initialize();
-    networkManager.Initialize();
-    trackingManager.Initialize();
+    trackingManager = GetComponentInChildren<TrackingManager>();    
   }
 
   void Update()
   {
-    if(Input.GetKeyUp(KeyCode.Space)) {
+    if(Input.GetKeyUp(KeyCode.D)) {
       ToggleSettingActive();
     }
   }
@@ -47,10 +44,11 @@ public class Manager : MonoBehaviour
     // toggle setting
     ToggleSettingActive();
 
-    // stop networking
-    networkManager.Reset() ;
-
     // save json
     dataManager.SaveJson();
+
+    // reset
+    networkManager.Reset() ;
+    trackingManager.Reset() ;
   }
 }

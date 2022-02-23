@@ -7,12 +7,9 @@ public class TrackingManager : MonoBehaviour
 {
   public Camera trackingCamera;
   public RawImage cameraFeed;
-  public int width = 1920;
-  public int height = 1080;
-  public int cols = 48;
-  public int rows = 16;
-  public float depthThreshold = 0.7f;
-  bool debugGUI = true;
+  int width, height, rows, cols;
+  float depthThreshold;
+  public bool debugGUI = true;
 
   Manager manager;
   RenderTexture cameraRenderTexture;
@@ -23,47 +20,25 @@ public class TrackingManager : MonoBehaviour
   // debug
   List<float> colorValues = new List<float>();
   GUIStyle style = new GUIStyle();
-
-  // status
-  bool isInitialize = false;
   bool isOnSetting = false;
 
-  public void Initialize() {
-    
+  /* Basic Functions */
+  void Start() { 
+
     // manager
     manager = GetComponentInParent<Manager>();
 
-    // pixel size    
-    pixelWidth = width / cols;
-    pixelHeight = height / rows;
-
-    // setup textures
-    cameraRenderTexture = new RenderTexture(width, height, 24);
-    trackingTexture = new Texture2D(width, height);
-    trackingCamera.targetTexture = cameraRenderTexture;
-    cameraFeed.texture = cameraRenderTexture;
-    cameraFeed.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+    // reset
+    Reset();
 
     // gui style
     style.alignment = TextAnchor.MiddleCenter;
     style.normal.textColor = Color.red;
 
-    isInitialize = true;
-  }
-
-  public void ToggleActive(bool _isOnSetting) {
-    isOnSetting = _isOnSetting;
-    if(isOnSetting) cameraFeed.gameObject.SetActive(false);
-    else cameraFeed.gameObject.SetActive(true);
-  }
-
-  void Start() { 
-
   }
 
   void Update() {
 
-    if(!isInitialize) return;
     if(isOnSetting) return;
     
     // tracking
@@ -74,6 +49,37 @@ public class TrackingManager : MonoBehaviour
     manager.SendTrackingData(resultData);
   }
 
+  /* Activatet Tracking */
+  public void ToggleActive(bool _isOnSetting) {
+    isOnSetting = _isOnSetting;
+    if(isOnSetting) cameraFeed.gameObject.SetActive(false);
+    else cameraFeed.gameObject.SetActive(true);
+  }
+
+  public void Reset() {
+
+    // set size
+    width = TrackingInfo.width;
+    height = TrackingInfo.height;
+    rows = TrackingInfo.rows;
+    cols = TrackingInfo.cols;
+    depthThreshold = TrackingInfo.depthThreshold;
+
+    // pixel size    
+    pixelWidth = width / cols;
+    pixelHeight = height / rows;
+
+    // setup textures    
+    if(cameraRenderTexture != null) cameraRenderTexture.Release();    
+    if(trackingTexture == null) trackingTexture = new Texture2D(0, 0);
+    cameraRenderTexture = new RenderTexture(width, height, 24);
+    trackingTexture.Resize(width, height);
+    trackingCamera.targetTexture = cameraRenderTexture;
+    cameraFeed.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+    cameraFeed.texture = cameraRenderTexture;
+  }
+
+  /* Convert Image */
   void UpdateTexture() {
 
     // copy render texture to texture2d
@@ -101,10 +107,11 @@ public class TrackingManager : MonoBehaviour
       }
     }
   }
+
+  /* Debug */
   void OnGUI() {
-    if(!isInitialize) return;
     if(isOnSetting) return;
-    if(!debugGUI) return;
+    if(!TrackingInfo.debug) return;
     if(resultData.Count < 1) return;
 
     int index = 0;
