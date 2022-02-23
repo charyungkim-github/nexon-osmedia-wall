@@ -89,7 +89,7 @@ namespace SocketIO
 
 		#region Unity interface
 
-		public void Awake()
+		public void Start()
 		{
 			encoder = new Encoder();
 			decoder = new Decoder();
@@ -117,12 +117,14 @@ namespace SocketIO
 			#if SOCKET_IO_DEBUG
 			if(debugMethod == null) { debugMethod = Debug.Log; };
 			#endif
-		}
 
-		public void Start()
-		{
 			if (autoConnect) { Connect(); }
 		}
+
+		// public void Start()
+		// {
+		// 	if (autoConnect) { Connect(); }
+		// }
 
 		public void Update()
 		{

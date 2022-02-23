@@ -7,7 +7,6 @@ public class TrackingManager : MonoBehaviour
 {
   public Camera trackingCamera;
   public RawImage cameraFeed;
-  // public RenderTexture cameraRenderTexture;
   public int width = 1920;
   public int height = 1080;
   public int cols = 48;

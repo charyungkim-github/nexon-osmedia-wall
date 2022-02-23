@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using SocketIO;
 
+/* Setup socket url on runtime :: SocketIOComponent.cs Change Awake to Start*/
+
 public class NetworkManager : MonoBehaviour
 {
   public bool debugServer = false;
+  public string ip;
+  public string port;
 
   // manager
   Manager manager;
@@ -14,19 +18,20 @@ public class NetworkManager : MonoBehaviour
   SocketIOComponent socket;
   bool isConnected = false;
 
-  void Start() {        
+  void Awake() {
+    
+    // setup socket
+    socket = GetComponent<SocketIOComponent>();
+    socket.url = string.Format("ws://{0}:{1}/socket.io/?EIO=4&transport=websocket", ip, port);
+  }
+
+  void Start() {
 
     // manager
     manager = GetComponentInParent<Manager>();
 
-    // socket
-    socket = GetComponent<SocketIOComponent>();
-
-    // socket connect
-    if(!debugServer) {
-      socket.enabled = true;
-      socket.Connect();
-    }
+    // connect socket
+    socket.Connect();
 
     // receive
     socket.On("socket-connected", GetSocketStatus);
