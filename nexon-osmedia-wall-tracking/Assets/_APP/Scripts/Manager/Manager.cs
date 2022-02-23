@@ -12,20 +12,23 @@ public class Manager : MonoBehaviour
   bool isOnSetting = false;
   void Awake() {
     dataManager = GetComponentInChildren<DataManager>();
-    dataManager.LoadJson();
-  }
-
-  void Start()
-  {
     settingsManager = GetComponentInChildren<SettingsManager>();
     networkManager = GetComponentInChildren<NetworkManager>();
     trackingManager = GetComponentInChildren<TrackingManager>();    
+
+    dataManager.LoadJson();
+  }
+
+  void Start() {
   }
 
   void Update()
   {
     if(Input.GetKeyUp(KeyCode.D)) {
       ToggleSettingActive();
+    }
+    if(Input.GetKeyUp(KeyCode.Q)) {
+      Application.Quit();
     }
   }
 
@@ -48,7 +51,7 @@ public class Manager : MonoBehaviour
     dataManager.SaveJson();
 
     // reset
-    networkManager.Reset() ;
-    trackingManager.Reset() ;
+    networkManager.Reset();
+    trackingManager.Reset();
   }
 }
