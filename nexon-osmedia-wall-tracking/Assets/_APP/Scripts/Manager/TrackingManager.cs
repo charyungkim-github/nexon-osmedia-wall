@@ -24,28 +24,48 @@ public class TrackingManager : MonoBehaviour
   List<float> colorValues = new List<float>();
   GUIStyle style = new GUIStyle();
 
-  void Start() {
+  // status
+  bool isInitialize = false;
+  bool isOnSetting = false;
+
+  public void Initialize() {
+    
     // manager
     manager = GetComponentInParent<Manager>();
-
-    // tracking texture
-    cameraRenderTexture = new RenderTexture(width, height, 24);
-    trackingTexture = new Texture2D(width, height);
 
     // pixel size    
     pixelWidth = width / cols;
     pixelHeight = height / rows;
 
+    // setup textures
+    cameraRenderTexture = new RenderTexture(width, height, 24);
+    trackingTexture = new Texture2D(width, height);
+    trackingCamera.targetTexture = cameraRenderTexture;
+    cameraFeed.texture = cameraRenderTexture;
+    cameraFeed.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+
     // gui style
     style.alignment = TextAnchor.MiddleCenter;
     style.normal.textColor = Color.red;
 
-    trackingCamera.targetTexture = cameraRenderTexture;
-    cameraFeed.texture = cameraRenderTexture;
-    cameraFeed.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+    isInitialize = true;
+  }
+
+  public void ToggleActive(bool _isOnSetting) {
+    isOnSetting = _isOnSetting;
+    if(isOnSetting) cameraFeed.gameObject.SetActive(false);
+    else cameraFeed.gameObject.SetActive(true);
+  }
+
+  void Start() { 
+
   }
 
   void Update() {
+
+    if(!isInitialize) return;
+    if(isOnSetting) return;
+    
     // tracking
     UpdateTexture();
     GetTextureColors();
@@ -82,6 +102,8 @@ public class TrackingManager : MonoBehaviour
     }
   }
   void OnGUI() {
+    if(!isInitialize) return;
+    if(isOnSetting) return;
     if(!debugGUI) return;
     if(resultData.Count < 1) return;
 

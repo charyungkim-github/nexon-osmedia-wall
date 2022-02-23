@@ -89,7 +89,7 @@ namespace SocketIO
 
 		#region Unity interface
 
-		public void Start()
+		public void Awake()
 		{
 			encoder = new Encoder();
 			decoder = new Decoder();
@@ -117,14 +117,12 @@ namespace SocketIO
 			#if SOCKET_IO_DEBUG
 			if(debugMethod == null) { debugMethod = Debug.Log; };
 			#endif
-
-			if (autoConnect) { Connect(); }
 		}
 
-		// public void Start()
-		// {
-		// 	if (autoConnect) { Connect(); }
-		// }
+		public void Start()
+		{
+			if (autoConnect) { Connect(); }
+		}
 
 		public void Update()
 		{
@@ -171,7 +169,14 @@ namespace SocketIO
 		#region Public Interface
 		
 		public void Connect()
-		{
+		{			
+			ws = new WebSocket(url);
+			ws.OnOpen += OnOpen;
+			ws.OnMessage += OnMessage;
+			ws.OnError += OnError;
+			ws.OnClose += OnClose;
+			wsConnected = false;
+
 			connected = true;
 
 			socketThread = new Thread(RunSocketThread);
