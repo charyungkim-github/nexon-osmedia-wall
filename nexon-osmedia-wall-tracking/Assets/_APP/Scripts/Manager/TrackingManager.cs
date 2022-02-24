@@ -22,7 +22,8 @@ public class TrackingManager : MonoBehaviour
   GUIStyle style = new GUIStyle();
   bool isOnSetting = false;
 
-  /* Basic Functions */
+  
+  #region Basic Functions
   void Start() { 
 
     // manager
@@ -48,8 +49,10 @@ public class TrackingManager : MonoBehaviour
     // send result
     manager.SendTrackingData(resultData);
   }
+  #endregion
 
-  /* Activatet Tracking */
+
+  #region Activatet Tracking
   public void ToggleActive(bool _isOnSetting) {
     isOnSetting = _isOnSetting;
     if(isOnSetting) cameraFeed.gameObject.SetActive(false);
@@ -78,8 +81,10 @@ public class TrackingManager : MonoBehaviour
     cameraFeed.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
     cameraFeed.texture = cameraRenderTexture;
   }
+  #endregion
 
-  /* Convert Image */
+
+  #region Convert Image
   void UpdateTexture() {
 
     // copy render texture to texture2d
@@ -109,8 +114,10 @@ public class TrackingManager : MonoBehaviour
       }
     }
   }
+  #endregion
 
-  /* Debug */
+
+  #region Debug
   void OnGUI() {
     if(isOnSetting) return;
     if(!Data.Tracking.debug) return;
@@ -129,4 +136,5 @@ public class TrackingManager : MonoBehaviour
       }
     }
   }
+  #endregion
 }

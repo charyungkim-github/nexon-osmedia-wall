@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
-  /* Public Variables */ 
+  #region Public Variables
   [Header("General")]
   public GameObject settingsHolder;
   public GameObject[] settings;
@@ -28,11 +28,14 @@ public class SettingsManager : MonoBehaviour
 
   [Header("Camera")]
   public CameraSettingsController cameraSettingsController;
+  #endregion
 
-  /* Private Variables */ 
+
+  #region Private Variables
   Manager manager;
   bool isOnSetting = false;
   int activatedIndex = -1;
+  #endregion
 
   #region Basic Functions
   void Start() {
@@ -136,8 +139,6 @@ public class SettingsManager : MonoBehaviour
     Data.Camera.widths = cameraSettingsController.widths;
     Data.Camera.heights = cameraSettingsController.heights;
 
-    // for(int i=0; i<Data.Camera.orders.Count; i++) Debug.Log(Data.Camera.orders[i]);
-    
     // save on json
     manager.SaveSettingsInJson();
   }

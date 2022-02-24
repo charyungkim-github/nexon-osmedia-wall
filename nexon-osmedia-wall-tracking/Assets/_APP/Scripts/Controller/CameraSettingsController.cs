@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// public class _CameraSettings {
-//   private static int _count = 0 ;
-//   public static int count { get { return _count; } set { _count = value; }}
-//   public static List<string> serialNubmers { get; set; }
-//   public static List<int> orders { get; set; }
-//   public static List<int> widths { get; set; }
-//   public static List<int> heights { get; set; }
-// }
 public class CameraSettingsController : MonoBehaviour
 {
   public Transform cameraSettingHodler;
@@ -34,9 +26,7 @@ public class CameraSettingsController : MonoBehaviour
     cameraSetting.transform.SetParent(cameraSettingHodler);
 
     // delete button onclick event
-    cameraSetting.transform.GetChild(2).GetComponent<Button>().onClick.AddListener( () => {
-      Destroy(cameraSetting);
-    });
+    cameraSetting.transform.GetChild(2).GetComponent<Button>().onClick.AddListener( () => { Destroy(cameraSetting); });
 
     // set default order
     cameraSetting.transform.GetChild(6).GetComponent<InputField>().text = (cameraSettingHodler.childCount-1).ToString();
@@ -58,9 +48,7 @@ public class CameraSettingsController : MonoBehaviour
     }
   }
 
-  // get data
-
-  // set data
-  // -> instantiate cam on load
-
+  public void LoadData() {
+    // get json file, load camera settings ui panel and info
+  }
 }

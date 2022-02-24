@@ -9,7 +9,8 @@ public class NetworkManager : MonoBehaviour
   Manager manager;
   SocketIOComponent socket;
   
-  /* Basic Functions */
+
+  #region Basic Functions
   void Start() { 
 
     // manager
@@ -25,8 +26,10 @@ public class NetworkManager : MonoBehaviour
 
   void Update() {
   }
+  #endregion
 
-  /* Socket Connection */
+
+  #region Socket Connection
   public void Reset() {
     Data.Network.isConnected = false;
     socket.url = string.Format("ws://{0}:{1}/socket.io/?EIO=4&transport=websocket", Data.Network.ip, Data.Network.port);    
@@ -38,8 +41,10 @@ public class NetworkManager : MonoBehaviour
     socket.Close();
     Debug.Log("socket disconnected");
   }  
+  #endregion
 
-  /* Socket Events */
+
+  #region Socket Events
   public void GetSocketStatus(SocketIOEvent  e) {
     
     Data.Network.isConnected = true;
@@ -62,4 +67,5 @@ public class NetworkManager : MonoBehaviour
     socket.Emit("tracking-data", json);
     // Debug.Log("send : " + json);
   }  
+  #endregion
 }
