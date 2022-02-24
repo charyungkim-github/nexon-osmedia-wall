@@ -1,1 +1,1 @@
-{"network":{"ip":"127.0.0.1","port":"3333"},"tracking":{"width":3840,"height":1080,"rows":16,"cols":48,"depthThreshold":0.699999988079071}}
+{"network":{"ip":"127.0.0.1","port":"3333"},"tracking":{"width":3840,"height":1080,"rows":16,"cols":50,"depthThreshold":0.699999988079071}}

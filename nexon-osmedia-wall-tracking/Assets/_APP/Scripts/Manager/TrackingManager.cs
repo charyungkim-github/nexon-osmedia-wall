@@ -97,6 +97,8 @@ public class TrackingManager : MonoBehaviour
 
     for (int y = 0; y < height; y += pixelHeight) {
       for (int x = 0; x < width; x += pixelWidth) {
+
+        if(x + pixelWidth > width) continue;
         
         // get color
         Color color = Utils.GetCenterColor((Texture2D)trackingTexture, x, y, pixelWidth, pixelHeight);
@@ -117,6 +119,8 @@ public class TrackingManager : MonoBehaviour
     int index = 0;
     for (int y = 0; y < height; y += pixelHeight) {
       for (int x = 0; x < width; x += pixelWidth) {
+
+        if(x + pixelWidth > width) continue;
         
         // string val = string.Format("{0:N1}", colorValues[index]);
         style.normal.textColor = resultData[index] ? Color.red : Color.gray;
