@@ -28,8 +28,8 @@ public class NetworkManager : MonoBehaviour
 
   /* Socket Connection */
   public void Reset() {
-    NetworkInfo.isConnected = false;
-    socket.url = string.Format("ws://{0}:{1}/socket.io/?EIO=4&transport=websocket", NetworkInfo.ip, NetworkInfo.port);    
+    Data.Network.isConnected = false;
+    socket.url = string.Format("ws://{0}:{1}/socket.io/?EIO=4&transport=websocket", Data.Network.ip, Data.Network.port);    
     socket.Connect();
   }
 
@@ -42,7 +42,7 @@ public class NetworkManager : MonoBehaviour
   /* Socket Events */
   public void GetSocketStatus(SocketIOEvent  e) {
     
-    NetworkInfo.isConnected = true;
+    Data.Network.isConnected = true;
     Debug.Log("socket connected");
   }
 

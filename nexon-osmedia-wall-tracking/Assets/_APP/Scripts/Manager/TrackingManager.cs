@@ -59,11 +59,11 @@ public class TrackingManager : MonoBehaviour
   public void Reset() {
 
     // set size
-    width = TrackingInfo.width;
-    height = TrackingInfo.height;
-    rows = TrackingInfo.rows;
-    cols = TrackingInfo.cols;
-    depthThreshold = TrackingInfo.depthThreshold;
+    width = Data.Tracking.width;
+    height = Data.Tracking.height;
+    rows = Data.Tracking.rows;
+    cols = Data.Tracking.cols;
+    depthThreshold = Data.Tracking.depthThreshold;
 
     // pixel size    
     pixelWidth = width / cols;
@@ -113,7 +113,7 @@ public class TrackingManager : MonoBehaviour
   /* Debug */
   void OnGUI() {
     if(isOnSetting) return;
-    if(!TrackingInfo.debug) return;
+    if(!Data.Tracking.debug) return;
     if(resultData.Count < 1) return;
 
     int index = 0;

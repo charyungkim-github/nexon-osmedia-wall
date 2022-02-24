@@ -25,16 +25,16 @@ public class DataManager : MonoBehaviour
 
     // load network info
     JSONNode newtork = root["network"];
-    NetworkInfo.ip = newtork["ip"];
-    NetworkInfo.port = newtork["port"];
+    Data.Network.ip = newtork["ip"];
+    Data.Network.port = newtork["port"];
     
     // load tracking info
     JSONNode tracking = root["tracking"];
-    TrackingInfo.width = tracking["width"];
-    TrackingInfo.height = tracking["height"];
-    TrackingInfo.rows = tracking["rows"];
-    TrackingInfo.cols = tracking["cols"];
-    TrackingInfo.depthThreshold = tracking["depthThreshold"];
+    Data.Tracking.width = tracking["width"];
+    Data.Tracking.height = tracking["height"];
+    Data.Tracking.rows = tracking["rows"];
+    Data.Tracking.cols = tracking["cols"];
+    Data.Tracking.depthThreshold = tracking["depthThreshold"];
 
     Debug.Log("json file loaded");
   }
@@ -47,16 +47,16 @@ public class DataManager : MonoBehaviour
 
     // save network info
     JSONNode newtork = root["network"];
-    newtork["ip"] = NetworkInfo.ip;
-    newtork["port"] = NetworkInfo.port;
+    newtork["ip"] = Data.Network.ip;
+    newtork["port"] = Data.Network.port;
 
     // save tracking info
     JSONNode tracking = root["tracking"];
-    tracking["width"] = TrackingInfo.width;
-    tracking["height"] = TrackingInfo.height;
-    tracking["rows"] = TrackingInfo.rows;
-    tracking["cols"] = TrackingInfo.cols;
-    tracking["depthThreshold"] = TrackingInfo.depthThreshold;
+    tracking["width"] = Data.Tracking.width;
+    tracking["height"] = Data.Tracking.height;
+    tracking["rows"] = Data.Tracking.rows;
+    tracking["cols"] = Data.Tracking.cols;
+    tracking["depthThreshold"] = Data.Tracking.depthThreshold;
     
     // save into file
     File.WriteAllText(jsonFilePath, root.ToString());
