@@ -7,6 +7,11 @@ public class TrackingManager : MonoBehaviour
 {
   public Camera trackingCamera;
   public RawImage cameraFeed;
+  public Transform deviceHolder;
+  public GameObject devicePrefab;
+  public Transform sourceFeedHolder;
+  public GameObject sourceFeedPrefab;
+  
   int width, height, rows, cols;
   float depthThreshold;
   public bool debugGUI = true;
@@ -60,8 +65,36 @@ public class TrackingManager : MonoBehaviour
   }
 
   public void Reset() {
-    
-    /* TODO :: setup rs device, setup source raw image*/
+        
+    for(int i=0; i<Data.Camera.Count; i++) {
+      // create canvas
+      if(i >= sourceFeedHolder.childCount) {
+        GameObject instancedFeed = Instantiate(sourceFeedPrefab);
+        instancedFeed.transform.SetParent(sourceFeedHolder);
+      }
+      
+      // set properties
+      RectTransform sourceFeed = sourceFeedHolder.GetChild(i).GetComponent<RectTransform>();      
+      sourceFeed.sizeDelta = new Vector2(1920, 1080); // need calib data ? need calculate by resolution / count?
+      
+      // create device
+      if(i >= deviceHolder.childCount) {
+        GameObject instancedDevice = Instantiate(devicePrefab);
+        instancedDevice.transform.SetParent(deviceHolder);
+      }
+      
+      // set properties
+      RsDevice device = deviceHolder.GetChild(i).GetComponent<RsDevice>();
+      device.enabled = false;
+      device.DeviceConfiguration.RequestedSerialNumber = Data.Camera[i].serialNumber;
+      device.DeviceConfiguration.Profiles[0].Width = Data.Camera[i].width;
+      device.DeviceConfiguration.Profiles[0].Height = Data.Camera[i].height;
+      device.enabled = true;
+      
+      /* TODO */
+      // RsStreamTextureRenderer deviceRenderer = device.GetComponentInChildren<RsStreamTextureRenderer>();
+      // deviceRenderer.textureBinding ==========> SET sourceFeed.texture
+    }    
     
     // set size
     width = Data.Tracking.width;
