@@ -115,6 +115,9 @@ public class SettingsManager : MonoBehaviour
     rows.text = Data.Tracking.rows.ToString();
     cols.text = Data.Tracking.cols.ToString();
     depthThreshold.text = Data.Tracking.depthThreshold.ToString();
+    
+    // camera
+    cameraSettingsController.LoadData(Data.Camera);
   }
 
   public void SaveData() {
@@ -133,12 +136,8 @@ public class SettingsManager : MonoBehaviour
     Data.Tracking.depthThreshold = float.Parse(depthThreshold.text);
 
     // camera
-    cameraSettingsController.SaveData();
-    Data.Camera.count = cameraSettingsController.count;
-    Data.Camera.orders = cameraSettingsController.orders;
-    Data.Camera.widths = cameraSettingsController.widths;
-    Data.Camera.heights = cameraSettingsController.heights;
-
+    Data.Camera = cameraSettingsController.GetData();
+    
     // save on json
     manager.SaveSettingsInJson();
   }

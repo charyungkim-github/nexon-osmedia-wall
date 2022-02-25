@@ -7,11 +7,6 @@ public class CameraSettingsController : MonoBehaviour
 {
   public Transform cameraSettingHodler;
   public GameObject cameraSettingPrefab;
-  [HideInInspector] public int count;
-  [HideInInspector] public List<string> serialNumbers;
-  [HideInInspector] public List<int> orders;
-  [HideInInspector] public List<int> widths;
-  [HideInInspector] public List<int> heights;
 
   void Start() {
       
@@ -32,23 +27,33 @@ public class CameraSettingsController : MonoBehaviour
     cameraSetting.transform.GetChild(6).GetComponent<InputField>().text = (cameraSettingHodler.childCount-1).ToString();
   }
 
-  public void SaveData() {
-    serialNumbers.Clear();
-    orders.Clear();
-    widths.Clear();
-    heights.Clear();
-    count = cameraSettingHodler.childCount;
-
+  public List<CameraData> GetData() {
+    List<CameraData> cameras = new List<CameraData>();
     for(int i=0; i<cameraSettingHodler.childCount; i++) {
       Transform cameraSetting = cameraSettingHodler.GetChild(i);
-      serialNumbers.Add(cameraSetting.GetChild(4).GetComponent<InputField>().text);
-      orders.Add(int.Parse(cameraSetting.GetChild(6).GetComponent<InputField>().text));
-      widths.Add(int.Parse(cameraSetting.GetChild(8).GetComponent<InputField>().text));
-      heights.Add(int.Parse(cameraSetting.GetChild(10).GetComponent<InputField>().text));
+      CameraData camera = new CameraData();
+      camera.serialNumber = cameraSetting.GetChild(4).GetComponent<InputField>().text;
+      camera.order = int.Parse(cameraSetting.GetChild(6).GetComponent<InputField>().text);
+      camera.width = int.Parse(cameraSetting.GetChild(8).GetComponent<InputField>().text);
+      camera.height = int.Parse(cameraSetting.GetChild(10).GetComponent<InputField>().text);
+      cameras.Add(camera);
     }
+    return cameras;
   }
 
-  public void LoadData() {
-    // get json file, load camera settings ui panel and info
+  public void LoadData(List<CameraData> cameras) {
+    
+    for(int i=0; i<cameras.Count; i++) {
+      
+      // create camera prefab
+      if(i >= cameraSettingHodler.childCount) AddCameraSetting();
+      
+      // setup values
+      Transform cameraSetting = cameraSettingHodler.GetChild(i);
+      cameraSetting.GetChild(4).GetComponent<InputField>().text = cameras[i].serialNumber;
+      cameraSetting.GetChild(6).GetComponent<InputField>().text = cameras[i].order.ToString();
+      cameraSetting.GetChild(8).GetComponent<InputField>().text = cameras[i].width.ToString();
+      cameraSetting.GetChild(10).GetComponent<InputField>().text = cameras[i].height.ToString();
+    }    
   }
 }

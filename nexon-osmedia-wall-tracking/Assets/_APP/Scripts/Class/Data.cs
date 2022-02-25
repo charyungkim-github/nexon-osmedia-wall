@@ -1,4 +1,10 @@
 using System.Collections.Generic;
+public class CameraData {
+  public string serialNumber;
+  public int order;
+  public int width;
+  public int height;
+}
 
 public class Data {
   public class Network {
@@ -16,11 +22,5 @@ public class Data {
     public static bool debug;
   }
 
-  public class Camera {
-    public static int count;
-    public static List<string> serialNumbers;
-    public static List<int> orders;
-    public static List<int> widths;
-    public static List<int> heights;
-  }
+  public static List<CameraData> Camera = new List<CameraData>();
 }
