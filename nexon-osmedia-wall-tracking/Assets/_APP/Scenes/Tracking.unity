@@ -1840,6 +1840,9 @@ MonoBehaviour:
   deviceHolder: {fileID: 1032073282}
   devicePrefab: {fileID: 6930811935497627648, guid: 5653f49d50cff3948883d7805de771cc,
     type: 3}
+  sourceFeedHolder: {fileID: 1119523018}
+  sourceFeedPrefab: {fileID: 4717610420954041002, guid: be2277c5f3cabef46abc200128a14b02,
+    type: 3}
   debugGUI: 1
 --- !u!1 &643098917
 GameObject:
@@ -3446,7 +3449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1032073282
 Transform:
   m_ObjectHideFlags: 0
