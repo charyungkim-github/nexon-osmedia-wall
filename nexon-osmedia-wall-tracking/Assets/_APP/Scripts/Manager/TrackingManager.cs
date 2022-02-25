@@ -60,7 +60,9 @@ public class TrackingManager : MonoBehaviour
   }
 
   public void Reset() {
-
+    
+    /* TODO :: setup rs device, setup source raw image*/
+    
     // set size
     width = Data.Tracking.width;
     height = Data.Tracking.height;
