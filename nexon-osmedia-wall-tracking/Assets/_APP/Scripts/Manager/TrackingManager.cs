@@ -7,10 +7,8 @@ public class TrackingManager : MonoBehaviour
 {
   public Camera trackingCamera;
   public RawImage cameraFeed;
-  public Transform deviceHolder;
-  public GameObject devicePrefab;
-  public Transform sourceFeedHolder;
-  public GameObject sourceFeedPrefab;
+  public Transform depthCameraHolder;
+  public GameObject depthCameraPrefab;
   
   int width, height, rows, cols;
   float depthThreshold;
@@ -65,37 +63,41 @@ public class TrackingManager : MonoBehaviour
   }
 
   public void Reset() {
-        
-    for(int i=0; i<Data.Camera.Count; i++) {
-      // create canvas
-      if(i >= sourceFeedHolder.childCount) {
-        GameObject instancedFeed = Instantiate(sourceFeedPrefab);
-        instancedFeed.transform.SetParent(sourceFeedHolder);
+
+    // create depth camera
+    for(int i=0; i<Data.Camera.cameraData.Count; i++) {
+
+      // create depth camera
+      if(i >= depthCameraHolder.childCount) {
+        GameObject depthCamera = Instantiate(depthCameraPrefab);
+        depthCamera.transform.SetParent(depthCameraHolder);
       }
+
+      // target depth camera      
+      Transform targetDepthCamera = depthCameraHolder.GetChild(i);
+
+      // set canvas properties
+      RectTransform sourceFeed = targetDepthCamera.GetComponent<RectTransform>();      
+      sourceFeed.localPosition = Vector3.zero;
+      sourceFeed.localScale = Vector3.one;
+      // need calib data ? need calculate by resolution / count?
+      sourceFeed.anchoredPosition = new Vector2(1920 * i, 0);
+      sourceFeed.sizeDelta = new Vector2(1920, 1080); 
       
-      // set properties
-      RectTransform sourceFeed = sourceFeedHolder.GetChild(i).GetComponent<RectTransform>();      
-      sourceFeed.sizeDelta = new Vector2(1920, 1080); // need calib data ? need calculate by resolution / count?
-      
-      // create device
-      if(i >= deviceHolder.childCount) {
-        GameObject instancedDevice = Instantiate(devicePrefab);
-        instancedDevice.transform.SetParent(deviceHolder);
-      }
-      
-      // set properties
-      RsDevice device = deviceHolder.GetChild(i).GetComponent<RsDevice>();
+      // set device properties
+      RsDevice device = targetDepthCamera.GetComponentInChildren<RsDevice>();
       device.enabled = false;
-      device.DeviceConfiguration.RequestedSerialNumber = Data.Camera[i].serialNumber;
-      device.DeviceConfiguration.Profiles[0].Width = Data.Camera[i].width;
-      device.DeviceConfiguration.Profiles[0].Height = Data.Camera[i].height;
+      device.DeviceConfiguration.RequestedSerialNumber = Data.Camera.cameraData[i].serialNumber;
+      device.DeviceConfiguration.Profiles[0].Width = Data.Camera.resolutionIndex == 0 ? 1280 : 640;      
+      device.DeviceConfiguration.Profiles[0].Height = Data.Camera.resolutionIndex == 0 ? 720 : 480;
       device.enabled = true;
-      
-      /* TODO */
-      // RsStreamTextureRenderer deviceRenderer = device.GetComponentInChildren<RsStreamTextureRenderer>();
-      // deviceRenderer.textureBinding ==========> SET sourceFeed.texture
-    }    
-    
+    }
+
+    // remove unused depth camera
+    for(int j=Data.Camera.cameraData.Count; j<depthCameraHolder.childCount; j++) {
+      Destroy(depthCameraHolder.GetChild(j).gameObject);
+    }
+
     // set size
     width = Data.Tracking.width;
     height = Data.Tracking.height;
@@ -164,9 +166,9 @@ public class TrackingManager : MonoBehaviour
 
         if(x + pixelWidth > width) continue;
         
-        // string val = string.Format("{0:N1}", colorValues[index]);
+        string val = string.Format("{0:N1}", colorValues[index]);
         style.normal.textColor = resultData[index] ? Color.red : Color.gray;
-        GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), index.ToString(), style);
+        GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), val.ToString(), style);
         index ++;
       }
     }

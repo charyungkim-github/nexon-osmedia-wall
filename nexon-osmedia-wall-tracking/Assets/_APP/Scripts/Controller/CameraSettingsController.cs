@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CameraSettingsController : MonoBehaviour
 {
+  public Transform depthCameraHolder;
   public Transform cameraSettingHodler;
   public GameObject cameraSettingPrefab;
 
@@ -27,7 +28,7 @@ public class CameraSettingsController : MonoBehaviour
     cameraSetting.transform.GetChild(6).GetComponent<InputField>().text = (cameraSettingHodler.childCount-1).ToString();
   }
 
-  public List<CameraData> GetData() {
+  public List<CameraData> GetCameraData() {
     List<CameraData> cameras = new List<CameraData>();
     for(int i=0; i<cameraSettingHodler.childCount; i++) {
       Transform cameraSetting = cameraSettingHodler.GetChild(i);
@@ -54,6 +55,8 @@ public class CameraSettingsController : MonoBehaviour
       cameraSetting.GetChild(6).GetComponent<InputField>().text = cameras[i].order.ToString();
       cameraSetting.GetChild(8).GetComponent<InputField>().text = cameras[i].width.ToString();
       cameraSetting.GetChild(10).GetComponent<InputField>().text = cameras[i].height.ToString();
-    }    
+      cameraSetting.GetChild(11).gameObject.SetActive(true);
+      cameraSetting.GetChild(11).GetComponent<RawImage>().texture = depthCameraHolder.GetChild(i).GetComponentInChildren<RawImage>().texture;
+    }
   }
 }

@@ -37,14 +37,16 @@ public class DataManager : MonoBehaviour
     Data.Tracking.depthThreshold = tracking["depthThreshold"];
     
     // load camera info
-    JSONNode camera = root["camera"].AsArray;
+    JSONNode camera = root["camera"];
+    Data.Camera.resolutionIndex = camera["resolutionIndex"];
+    JSONNode cameraData = camera["cameraData"].AsArray;
     for(int i=0; i<camera.Count; i++) {
-      CameraData cameraData = new CameraData();
-      cameraData.serialNumber = camera[i]["serialNumber"];
-      cameraData.order = camera[i]["order"];
-      cameraData.width = camera[i]["width"];
-      cameraData.height = camera[i]["height"];
-      Data.Camera.Add(cameraData);
+      CameraData _cameraData = new CameraData();
+      _cameraData.serialNumber = cameraData[i]["serialNumber"];
+      _cameraData.order = cameraData[i]["order"];
+      _cameraData.width = cameraData[i]["width"];
+      _cameraData.height = cameraData[i]["height"];
+      Data.Camera.cameraData.Add(_cameraData);
     }
 
     Debug.Log("json file loaded");
@@ -69,15 +71,18 @@ public class DataManager : MonoBehaviour
     tracking.AddField("depthThreshold", Data.Tracking.depthThreshold);
     
     // save camera info    
-    JSONObject cameras = new JSONObject(JSONObject.Type.ARRAY);    
-    json.AddField("camera", cameras);
-    for(int i=0; i<Data.Camera.Count; i++) {
-      JSONObject camera = new JSONObject();
-      camera.AddField("serialNumber", Data.Camera[i].serialNumber);
-      camera.AddField("order", Data.Camera[i].order);
-      camera.AddField("width", Data.Camera[i].width);
-      camera.AddField("height", Data.Camera[i].height);
-      cameras.Add(camera);
+    JSONObject camera = new JSONObject();
+    json.AddField("camera", camera);
+    camera.AddField("resolutionIndex", Data.Camera.resolutionIndex);
+    JSONObject cameraData = new JSONObject(JSONObject.Type.ARRAY);
+    camera.AddField("cameraData", cameraData);
+    for(int i=0; i<Data.Camera.cameraData.Count; i++) {
+      JSONObject _cameraData = new JSONObject();
+      _cameraData.AddField("serialNumber", Data.Camera.cameraData[i].serialNumber);
+      _cameraData.AddField("order", Data.Camera.cameraData[i].order);
+      _cameraData.AddField("width", Data.Camera.cameraData[i].width);
+      _cameraData.AddField("height", Data.Camera.cameraData[i].height);
+      cameraData.Add(_cameraData);
     }
     
     // save into file

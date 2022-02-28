@@ -28,6 +28,7 @@ public class SettingsManager : MonoBehaviour
 
   [Header("Camera")]
   public CameraSettingsController cameraSettingsController;
+  public Dropdown cameraResolution;
   #endregion
 
 
@@ -117,7 +118,8 @@ public class SettingsManager : MonoBehaviour
     depthThreshold.text = Data.Tracking.depthThreshold.ToString();
     
     // camera
-    cameraSettingsController.LoadData(Data.Camera);
+    cameraResolution.value = Data.Camera.resolutionIndex;
+    cameraSettingsController.LoadData(Data.Camera.cameraData);
   }
 
   public void SaveData() {
@@ -135,8 +137,9 @@ public class SettingsManager : MonoBehaviour
     Data.Tracking.cols = int.Parse(cols.text);
     Data.Tracking.depthThreshold = float.Parse(depthThreshold.text);
 
-    // camera
-    Data.Camera = cameraSettingsController.GetData();
+    // camera    
+    Data.Camera.resolutionIndex = cameraResolution.value;
+    Data.Camera.cameraData = cameraSettingsController.GetCameraData();
     
     // save on json
     manager.SaveSettingsInJson();

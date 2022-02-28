@@ -22,5 +22,9 @@ public class Data {
     public static bool debug;
   }
 
-  public static List<CameraData> Camera = new List<CameraData>();
+  public class Camera {
+    public static int resolutionIndex; // 0:1280720, 1:640480
+    public static List<CameraData> cameraData = new List<CameraData>();
+
+  }
 }

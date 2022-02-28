@@ -1137,7 +1137,7 @@ GameObject:
   - component: {fileID: 6462930741373308982}
   - component: {fileID: 6462930741373308985}
   m_Layer: 5
-  m_Name: cameraSetting
+  m_Name: cameraSetting_backup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1624,7 +1624,7 @@ MonoBehaviour:
   m_Text: -1
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
-  m_ReadOnly: 1
+  m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
 --- !u!1 &6462930741659242175
 GameObject:
