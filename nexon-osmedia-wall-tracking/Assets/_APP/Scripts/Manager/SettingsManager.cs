@@ -50,7 +50,10 @@ public class SettingsManager : MonoBehaviour
 
   void Update() {
     // check for network status
-    if(isOnSetting) networkConnection.text = Data.Network.isConnected ? "ON" : "OFF";    
+    if(isOnSetting) networkConnection.text = Data.Network.isConnected ? "ON" : "OFF";  
+    
+    // check for device status
+    // ??  
   }
   #endregion
 

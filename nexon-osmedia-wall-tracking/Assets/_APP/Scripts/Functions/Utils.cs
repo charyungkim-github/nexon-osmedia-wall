@@ -40,4 +40,9 @@ public class Utils : MonoBehaviour{
   public static double Map(double x, double in_min, double in_max, double out_min, double out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
   }
+  
+  public static Vector2 GetAnchoredPosition(CameraData cameraData) {
+    
+    return new Vector2(-(cameraData.width/2) + cameraData.positionX, -cameraData.positionY);
+  }
 }

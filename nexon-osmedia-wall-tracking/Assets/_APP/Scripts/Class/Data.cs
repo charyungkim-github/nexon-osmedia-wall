@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 public class CameraData {
   public string serialNumber;
-  public int order;
   public int width;
   public int height;
+  public float positionX;
+  public float positionY;
+  public float rotationZ;
 }
 
 public class Data {

@@ -22,10 +22,7 @@ public class CameraSettingsController : MonoBehaviour
     cameraSetting.transform.SetParent(cameraSettingHodler);
 
     // delete button onclick event
-    cameraSetting.transform.GetChild(2).GetComponent<Button>().onClick.AddListener( () => { Destroy(cameraSetting); });
-
-    // set default order
-    cameraSetting.transform.GetChild(6).GetComponent<InputField>().text = (cameraSettingHodler.childCount-1).ToString();
+    cameraSetting.transform.GetChild(3).GetComponent<Button>().onClick.AddListener( () => { Destroy(cameraSetting); });
   }
 
   public List<CameraData> GetCameraData() {
@@ -33,17 +30,19 @@ public class CameraSettingsController : MonoBehaviour
     for(int i=0; i<cameraSettingHodler.childCount; i++) {
       Transform cameraSetting = cameraSettingHodler.GetChild(i);
       CameraData camera = new CameraData();
-      camera.serialNumber = cameraSetting.GetChild(4).GetComponent<InputField>().text;
-      camera.order = int.Parse(cameraSetting.GetChild(6).GetComponent<InputField>().text);
-      camera.width = int.Parse(cameraSetting.GetChild(8).GetComponent<InputField>().text);
-      camera.height = int.Parse(cameraSetting.GetChild(10).GetComponent<InputField>().text);
+      camera.serialNumber = cameraSetting.GetChild(5).GetComponent<InputField>().text;
+      camera.width = int.Parse(cameraSetting.GetChild(7).GetComponent<InputField>().text);
+      camera.height = int.Parse(cameraSetting.GetChild(9).GetComponent<InputField>().text);
+      camera.positionX = int.Parse(cameraSetting.GetChild(11).GetComponent<InputField>().text);
+      camera.positionY = int.Parse(cameraSetting.GetChild(13).GetComponent<InputField>().text);
+      camera.rotationZ = int.Parse(cameraSetting.GetChild(15).GetComponent<InputField>().text);
       cameras.Add(camera);
     }
     return cameras;
   }
 
   public void LoadData(List<CameraData> cameras) {
-    
+    Debug.Log("load data");
     for(int i=0; i<cameras.Count; i++) {
       
       // create camera prefab
@@ -51,12 +50,14 @@ public class CameraSettingsController : MonoBehaviour
       
       // setup values
       Transform cameraSetting = cameraSettingHodler.GetChild(i);
-      cameraSetting.GetChild(4).GetComponent<InputField>().text = cameras[i].serialNumber;
-      cameraSetting.GetChild(6).GetComponent<InputField>().text = cameras[i].order.ToString();
-      cameraSetting.GetChild(8).GetComponent<InputField>().text = cameras[i].width.ToString();
-      cameraSetting.GetChild(10).GetComponent<InputField>().text = cameras[i].height.ToString();
-      cameraSetting.GetChild(11).gameObject.SetActive(true);
-      cameraSetting.GetChild(11).GetComponent<RawImage>().texture = depthCameraHolder.GetChild(i).GetComponentInChildren<RawImage>().texture;
+      cameraSetting.GetChild(1).gameObject.SetActive(true);
+      cameraSetting.GetChild(1).GetComponent<RawImage>().texture = depthCameraHolder.GetChild(i).GetComponentInChildren<RawImage>().texture;
+      cameraSetting.GetChild(5).GetComponent<InputField>().text = cameras[i].serialNumber;
+      cameraSetting.GetChild(7).GetComponent<InputField>().text = cameras[i].width.ToString();
+      cameraSetting.GetChild(9).GetComponent<InputField>().text = cameras[i].height.ToString();
+      cameraSetting.GetChild(11).GetComponent<InputField>().text = cameras[i].positionX.ToString();
+      cameraSetting.GetChild(13).GetComponent<InputField>().text = cameras[i].positionY.ToString();
+      cameraSetting.GetChild(15).GetComponent<InputField>().text = cameras[i].rotationZ.ToString();
     }
   }
 }

@@ -43,9 +43,11 @@ public class DataManager : MonoBehaviour
     for(int i=0; i<camera.Count; i++) {
       CameraData _cameraData = new CameraData();
       _cameraData.serialNumber = cameraData[i]["serialNumber"];
-      _cameraData.order = cameraData[i]["order"];
       _cameraData.width = cameraData[i]["width"];
       _cameraData.height = cameraData[i]["height"];
+      _cameraData.positionX = cameraData[i]["positionX"];
+      _cameraData.positionY = cameraData[i]["positionY"];
+      _cameraData.rotationZ = cameraData[i]["rotationZ"];
       Data.Camera.cameraData.Add(_cameraData);
     }
 
@@ -79,9 +81,11 @@ public class DataManager : MonoBehaviour
     for(int i=0; i<Data.Camera.cameraData.Count; i++) {
       JSONObject _cameraData = new JSONObject();
       _cameraData.AddField("serialNumber", Data.Camera.cameraData[i].serialNumber);
-      _cameraData.AddField("order", Data.Camera.cameraData[i].order);
       _cameraData.AddField("width", Data.Camera.cameraData[i].width);
       _cameraData.AddField("height", Data.Camera.cameraData[i].height);
+      _cameraData.AddField("positionX", Data.Camera.cameraData[i].positionX);
+      _cameraData.AddField("positionY", Data.Camera.cameraData[i].positionY);
+      _cameraData.AddField("rotationZ", Data.Camera.cameraData[i].rotationZ);
       cameraData.Add(_cameraData);
     }
     

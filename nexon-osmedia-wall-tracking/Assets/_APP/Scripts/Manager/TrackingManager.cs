@@ -38,7 +38,6 @@ public class TrackingManager : MonoBehaviour
     // gui style
     style.alignment = TextAnchor.MiddleCenter;
     style.normal.textColor = Color.red;
-
   }
 
   void Update() {
@@ -80,19 +79,19 @@ public class TrackingManager : MonoBehaviour
       RectTransform sourceFeed = targetDepthCamera.GetComponent<RectTransform>();      
       sourceFeed.localPosition = Vector3.zero;
       sourceFeed.localScale = Vector3.one;
-      // need calib data ? need calculate by resolution / count?
-      sourceFeed.anchoredPosition = new Vector2(1920 * i, 0);
-      sourceFeed.sizeDelta = new Vector2(1920, 1080); 
+      // sourceFeed.anchoredPosition = new Vector2(Data.Camera.cameraData[i].positionX, Data.Camera.cameraData[i].positionY);
+      sourceFeed.anchoredPosition = Utils.GetAnchoredPosition(Data.Camera.cameraData[i]);
+      sourceFeed.sizeDelta = new Vector2(Data.Camera.cameraData[i].width, Data.Camera.cameraData[i].height); 
+      sourceFeed.eulerAngles = new Vector3(0,0,Data.Camera.cameraData[i].rotationZ);
       
       if(!manager.isOnDebugDevice) {
+        
         // set device properties
         targetDepthCamera.GetChild(0).gameObject.SetActive(true);
         RsDevice device = targetDepthCamera.GetComponentInChildren<RsDevice>();
-        device.enabled = false;
         device.DeviceConfiguration.RequestedSerialNumber = Data.Camera.cameraData[i].serialNumber;
         device.DeviceConfiguration.Profiles[0].Width = Data.Camera.resolutionIndex == 0 ? 1280 : 640;      
         device.DeviceConfiguration.Profiles[0].Height = Data.Camera.resolutionIndex == 0 ? 720 : 480;
-        device.enabled = true;
       }
     }
 
@@ -145,20 +144,25 @@ public class TrackingManager : MonoBehaviour
 
         if(x + pixelWidth > width) continue;
         
-        if(manager.isOnDebugTracking) {
-          Vector2 centerPosition = new Vector2(x + (pixelWidth/2), y + (pixelHeight/2));
-          Vector2 mousePosition = new Vector2(Input.mousePosition.x, Data.Tracking.height-Input.mousePosition.y);
-          float distance = Vector2.Distance(centerPosition, mousePosition);
-          resultData.Add(distance < 200);
-          colorValues.Add(distance);
-        }
-        else {
+        if(!manager.isOnDebugTracking){
+          
           // get color
           Color color = Utils.GetCenterColor((Texture2D)trackingTexture, x, y, pixelWidth, pixelHeight);
 
           // save result          
           resultData.Add(color.r > depthThreshold);
           colorValues.Add(color.r);
+        }        
+        else {
+          
+          // get mouse position
+          Vector2 centerPosition = new Vector2(x + (pixelWidth/2), y + (pixelHeight/2));
+          Vector2 mousePosition = new Vector2(Input.mousePosition.x, Data.Tracking.height-Input.mousePosition.y);
+          float distance = Vector2.Distance(centerPosition, mousePosition);
+          
+          // sava data
+          resultData.Add(distance < 200);
+          colorValues.Add(distance);
         }
       }
     }
