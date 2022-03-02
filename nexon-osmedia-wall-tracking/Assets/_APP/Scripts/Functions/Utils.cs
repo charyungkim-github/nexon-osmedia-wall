@@ -42,7 +42,6 @@ public class Utils : MonoBehaviour{
   }
   
   public static Vector2 GetAnchoredPosition(CameraData cameraData) {
-    
     return new Vector2(-(cameraData.width/2) + cameraData.positionX, -cameraData.positionY);
   }
 }
