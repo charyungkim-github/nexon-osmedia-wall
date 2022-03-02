@@ -84,13 +84,16 @@ public class TrackingManager : MonoBehaviour
       sourceFeed.anchoredPosition = new Vector2(1920 * i, 0);
       sourceFeed.sizeDelta = new Vector2(1920, 1080); 
       
-      // set device properties
-      RsDevice device = targetDepthCamera.GetComponentInChildren<RsDevice>();
-      device.enabled = false;
-      device.DeviceConfiguration.RequestedSerialNumber = Data.Camera.cameraData[i].serialNumber;
-      device.DeviceConfiguration.Profiles[0].Width = Data.Camera.resolutionIndex == 0 ? 1280 : 640;      
-      device.DeviceConfiguration.Profiles[0].Height = Data.Camera.resolutionIndex == 0 ? 720 : 480;
-      device.enabled = true;
+      if(!manager.isOnDebugDevice) {
+        // set device properties
+        targetDepthCamera.GetChild(0).gameObject.SetActive(true);
+        RsDevice device = targetDepthCamera.GetComponentInChildren<RsDevice>();
+        device.enabled = false;
+        device.DeviceConfiguration.RequestedSerialNumber = Data.Camera.cameraData[i].serialNumber;
+        device.DeviceConfiguration.Profiles[0].Width = Data.Camera.resolutionIndex == 0 ? 1280 : 640;      
+        device.DeviceConfiguration.Profiles[0].Height = Data.Camera.resolutionIndex == 0 ? 720 : 480;
+        device.enabled = true;
+      }
     }
 
     // remove unused depth camera
@@ -123,7 +126,7 @@ public class TrackingManager : MonoBehaviour
 
   #region Convert Image
   void UpdateTexture() {
-
+    
     // copy render texture to texture2d
     RenderTexture.active = null;
     RenderTexture.active = cameraRenderTexture;
@@ -142,12 +145,21 @@ public class TrackingManager : MonoBehaviour
 
         if(x + pixelWidth > width) continue;
         
-        // get color
-        Color color = Utils.GetCenterColor((Texture2D)trackingTexture, x, y, pixelWidth, pixelHeight);
+        if(manager.isOnDebugTracking) {
+          Vector2 centerPosition = new Vector2(x + (pixelWidth/2), y + (pixelHeight/2));
+          Vector2 mousePosition = new Vector2(Input.mousePosition.x, Data.Tracking.height-Input.mousePosition.y);
+          float distance = Vector2.Distance(centerPosition, mousePosition);
+          resultData.Add(distance < 200);
+          colorValues.Add(distance);
+        }
+        else {
+          // get color
+          Color color = Utils.GetCenterColor((Texture2D)trackingTexture, x, y, pixelWidth, pixelHeight);
 
-        // save result          
-        resultData.Add(color.r > depthThreshold);
-        colorValues.Add(color.r);
+          // save result          
+          resultData.Add(color.r > depthThreshold);
+          colorValues.Add(color.r);
+        }
       }
     }
   }
@@ -168,7 +180,7 @@ public class TrackingManager : MonoBehaviour
         
         string val = string.Format("{0:N1}", colorValues[index]);
         style.normal.textColor = resultData[index] ? Color.red : Color.gray;
-        GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), val.ToString(), style);
+        GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), index.ToString(), style);
         index ++;
       }
     }

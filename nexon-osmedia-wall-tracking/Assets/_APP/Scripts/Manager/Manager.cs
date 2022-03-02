@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
+  public bool isOnDebugDevice = false;
+  public bool isOnDebugTracking = false;
   DataManager dataManager;
   SettingsManager settingsManager;
   NetworkManager networkManager;
@@ -15,7 +17,7 @@ public class Manager : MonoBehaviour
     settingsManager = GetComponentInChildren<SettingsManager>();
     networkManager = GetComponentInChildren<NetworkManager>();
     trackingManager = GetComponentInChildren<TrackingManager>();    
-
+    
     dataManager.LoadJson();
   }
 
@@ -26,6 +28,9 @@ public class Manager : MonoBehaviour
   {
     if(Input.GetKeyUp(KeyCode.D)) {
       ToggleSettingActive();
+    }
+    if(Input.GetKeyUp(KeyCode.M)) {
+      isOnDebugTracking = !isOnDebugTracking;
     }
     if(Input.GetKeyUp(KeyCode.Q)) {
       Application.Quit();

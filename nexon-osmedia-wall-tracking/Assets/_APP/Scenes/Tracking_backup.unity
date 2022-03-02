@@ -6868,8 +6868,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1bc97ac7596e24593c892a7bcb3135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOnDebugDevice: 1
-  isOnDebugTracking: 0
 --- !u!4 &1777646041
 Transform:
   m_ObjectHideFlags: 0
