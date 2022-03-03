@@ -53,7 +53,7 @@ public class RsColorizer : RsProcessingBlock
         schemeOption = _pb.Options[Option.ColorScheme];
         histEqOption = _pb.Options[Option.HistogramEqualizationEnabled];
         minDistOption = _pb.Options[Option.MinDistance];
-        maxDistOption = _pb.Options[Option.MaxDistance];
+        maxDistOption = _pb.Options[Option.MaxDistance];        
     }
 
     void OnDisable()
@@ -87,6 +87,7 @@ public class RsColorizer : RsProcessingBlock
             histogramEqualization = histEqOption.Value != 0f;
             minDist = minDistOption.Value;
             maxDist = maxDistOption.Value;
+
         }
         else
         {
@@ -101,6 +102,6 @@ public class RsColorizer : RsProcessingBlock
 
             if (maxDistOption.Value != maxDist)
                 maxDistOption.Value = maxDist;
-        }
+        }        
     }
 }

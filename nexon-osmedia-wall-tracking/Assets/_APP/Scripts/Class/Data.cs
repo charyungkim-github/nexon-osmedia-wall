@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using UnityEngine;
+
 public class CameraData {
   public string serialNumber;
-  public int width;
-  public int height;
-  public float positionX;
-  public float positionY;
-  public float rotationZ;
+  public Vector3 position;
+  public Vector3 rotation;
+  public Vector3 scale;
 }
 
 public class Data {
@@ -25,8 +25,11 @@ public class Data {
   }
 
   public class Camera {
+    public static Vector3 position;
+    public static float size;
+    public static float near;
+    public static float far;
     public static int resolutionIndex; // 0:1280720, 1:640480
     public static List<CameraData> cameraData = new List<CameraData>();
-
   }
 }

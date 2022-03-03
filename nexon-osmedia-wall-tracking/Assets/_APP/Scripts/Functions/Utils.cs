@@ -5,8 +5,6 @@ using UnityEngine;
 public class Utils : MonoBehaviour{
   
   public static Color GetAvrColor(Texture2D texture, int x, int y, float width, float height) {
-    width = 10;
-    height = 10;
     Color color = new Color(0,0,0);
     for(int i = x; i < x + width; i++) {
       for(int j = y; j < y + height; j++) {
@@ -40,9 +38,5 @@ public class Utils : MonoBehaviour{
 
   public static double Map(double x, double in_min, double in_max, double out_min, double out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-  }
-  
-  public static Vector2 GetAnchoredPosition(CameraData cameraData) {
-    return new Vector2(-(cameraData.width/2) + cameraData.positionX, -cameraData.positionY);
   }
 }

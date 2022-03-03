@@ -29,6 +29,12 @@ public class SettingsManager : MonoBehaviour
   [Header("Camera")]
   public CameraSettingsController cameraSettingsController;
   public Dropdown cameraResolution;
+  public InputField cameraPositionX;
+  public InputField cameraPositionY;
+  public InputField cameraPositionZ;
+  public InputField size;
+  public InputField near;
+  public InputField far;
   #endregion
 
 
@@ -121,7 +127,13 @@ public class SettingsManager : MonoBehaviour
     depthThreshold.text = Data.Tracking.depthThreshold.ToString();
     
     // camera
-    cameraResolution.value = Data.Camera.resolutionIndex;
+    cameraResolution.value = Data.Camera.resolutionIndex;    
+    cameraPositionX.text = Data.Camera.position.x.ToString();
+    cameraPositionY.text = Data.Camera.position.y.ToString();
+    cameraPositionZ.text = Data.Camera.position.z.ToString();
+    size.text = Data.Camera.size.ToString();    
+    near.text = Data.Camera.near.ToString();    
+    far.text = Data.Camera.far.ToString();    
     cameraSettingsController.LoadData(Data.Camera.cameraData);
   }
 
@@ -142,6 +154,10 @@ public class SettingsManager : MonoBehaviour
 
     // camera    
     Data.Camera.resolutionIndex = cameraResolution.value;
+    Data.Camera.position = new Vector3(float.Parse(cameraPositionX.text), float.Parse(cameraPositionY.text), float.Parse(cameraPositionZ.text));
+    Data.Camera.size = float.Parse(size.text);
+    Data.Camera.near = float.Parse(near.text);
+    Data.Camera.far = float.Parse(far.text);
     Data.Camera.cameraData = cameraSettingsController.GetCameraData();
     
     // save on json

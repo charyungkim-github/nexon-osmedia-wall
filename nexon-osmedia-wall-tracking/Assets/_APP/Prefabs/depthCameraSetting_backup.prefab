@@ -1502,7 +1502,7 @@ GameObject:
   - component: {fileID: 6462930741373308982}
   - component: {fileID: 6462930741373308985}
   m_Layer: 5
-  m_Name: cameraSetting
+  m_Name: depthCameraSetting_backup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
