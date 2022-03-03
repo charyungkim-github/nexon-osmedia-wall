@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-  public bool isOnDebugDevice = false;
-  public bool isOnDebugTracking = false;
-  public bool isOnDebugGui = true;
+  public bool debugDevice = false;
+  public bool debugTracking = false;
+  public bool debugGUI = true;
   DataManager dataManager;
   SettingsManager settingsManager;
   NetworkManager networkManager;
@@ -31,7 +31,7 @@ public class Manager : MonoBehaviour
       ToggleSettingActive();
     }
     if(Input.GetKeyUp(KeyCode.M)) {
-      isOnDebugTracking = !isOnDebugTracking;
+      debugTracking = !debugTracking;
     }
     if(Input.GetKeyUp(KeyCode.Q)) {
       Application.Quit();
@@ -62,8 +62,8 @@ public class Manager : MonoBehaviour
   }
 
   #region Debug
-  public void ChangeDebugGUI(bool _isOnDebugGui) {
-    isOnDebugGui = _isOnDebugGui;
+  public void ChangeDebugGUI(bool _debugGUI) {
+    debugGUI = _debugGUI;
   }
   #endregion
 }

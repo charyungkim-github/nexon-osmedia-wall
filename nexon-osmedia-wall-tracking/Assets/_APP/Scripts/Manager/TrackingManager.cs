@@ -86,7 +86,7 @@ public class TrackingManager : MonoBehaviour
       // target depth camera      
       Transform targetDepthCamera = depthCameraHolder.GetChild(i);
 
-      if(!manager.isOnDebugDevice) {
+      if(!manager.debugDevice) {
         
         // set device properties
         RsDevice device = targetDepthCamera.GetComponentInChildren<RsDevice>();
@@ -167,7 +167,7 @@ public class TrackingManager : MonoBehaviour
         if(x + pixelWidth > width) continue;
         if(y + pixelHeight > height) continue;
         
-        if(!manager.isOnDebugTracking){
+        if(!manager.debugTracking){
           
           // get color
           Color color = Utils.GetAvrColor((Texture2D)trackingTexture, x, height - y, pixelWidth/2, pixelHeight/2);
@@ -195,7 +195,7 @@ public class TrackingManager : MonoBehaviour
   #region Debug
   void OnGUI() {
     if(isOnSetting) return;
-    if(!manager.isOnDebugGui) return;
+    if(!manager.debugGUI) return;
     if(resultData.Count < 1) return;
 
     int index = 0;
