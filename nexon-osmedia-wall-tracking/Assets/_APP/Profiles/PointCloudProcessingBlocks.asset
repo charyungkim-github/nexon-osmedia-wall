@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabled: 1
   visualPreset: 2
-  colorScheme: 1
+  colorScheme: 2
   histogramEqualization: 0
   minDist: 0.3
   maxDist: 1.5

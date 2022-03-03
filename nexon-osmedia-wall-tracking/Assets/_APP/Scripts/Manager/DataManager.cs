@@ -35,6 +35,8 @@ public class DataManager : MonoBehaviour
     Data.Tracking.rows = tracking["rows"];
     Data.Tracking.cols = tracking["cols"];
     Data.Tracking.depthThreshold = tracking["depthThreshold"];
+    Data.Tracking.profileNear = tracking["profileNear"];
+    Data.Tracking.profileFar = tracking["profileFar"];
     
     // load camera info
     JSONNode camera = root["camera"];
@@ -51,7 +53,7 @@ public class DataManager : MonoBehaviour
       _cameraData.serialNumber = cameraData[i]["serialNumber"];
       _cameraData.position = new Vector3(cameraData[i]["positionX"], cameraData[i]["positionY"], cameraData[i]["positionZ"]);
       _cameraData.rotation = new Vector3(cameraData[i]["rotationX"], cameraData[i]["rotationY"], cameraData[i]["rotationZ"]);
-      _cameraData.scale = new Vector3(cameraData[i]["scaleX"], cameraData[i]["scaleY"], cameraData[i]["positionZ"]);
+      _cameraData.scale = new Vector3(cameraData[i]["scaleX"], cameraData[i]["scaleY"], cameraData[i]["scaleZ"]);
       Data.Camera.cameraData.Add(_cameraData);
     }
 
@@ -75,6 +77,8 @@ public class DataManager : MonoBehaviour
     tracking.AddField("rows", Data.Tracking.rows);
     tracking.AddField("cols", Data.Tracking.cols);
     tracking.AddField("depthThreshold", Data.Tracking.depthThreshold);
+    tracking.AddField("profileNear", Data.Tracking.profileNear);
+    tracking.AddField("profileFar", Data.Tracking.profileFar);
     
     // save camera info    
     JSONObject camera = new JSONObject();

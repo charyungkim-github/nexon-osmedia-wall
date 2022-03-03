@@ -24,7 +24,8 @@ public class SettingsManager : MonoBehaviour
   public InputField rows;
   public InputField cols;
   public InputField depthThreshold;
-  public Toggle debugTracking;
+  public InputField profileNear;
+  public InputField profileFar;
 
   [Header("Camera")]
   public CameraSettingsController cameraSettingsController;
@@ -56,10 +57,10 @@ public class SettingsManager : MonoBehaviour
 
   void Update() {
     // check for network status
-    if(isOnSetting) networkConnection.text = Data.Network.isConnected ? "ON" : "OFF";  
-    
+    if(isOnSetting) networkConnection.text = Data.Network.isConnected.ToString();
+
     // check for device status
-    // ??  
+    if(isOnSetting) cameraSettingsController.UpdateDepthCameraStatus();
   }
   #endregion
 
@@ -101,7 +102,6 @@ public class SettingsManager : MonoBehaviour
       settings[i].SetActive(false);
       tabs[i].color = Color.gray;
     }
-    Data.Tracking.debug = debugTracking.isOn;
   }
   #endregion
 
@@ -116,8 +116,8 @@ public class SettingsManager : MonoBehaviour
     // tracking
     trackingStatus.text = string.Format(
       "size : {0} x {1}, cells : {2} x {3}, thresold : {4}", 
-      Data.Tracking.rows, Data.Tracking.cols, 
       Data.Tracking.width, Data.Tracking.height, 
+      Data.Tracking.cols, Data.Tracking.rows, 
       Data.Tracking.depthThreshold
     );
     width.text = Data.Tracking.width.ToString();
@@ -125,6 +125,8 @@ public class SettingsManager : MonoBehaviour
     rows.text = Data.Tracking.rows.ToString();
     cols.text = Data.Tracking.cols.ToString();
     depthThreshold.text = Data.Tracking.depthThreshold.ToString();
+    profileNear.text = Data.Tracking.profileNear.ToString();
+    profileFar.text = Data.Tracking.profileFar.ToString();
     
     // camera
     cameraResolution.value = Data.Camera.resolutionIndex;    
@@ -151,6 +153,8 @@ public class SettingsManager : MonoBehaviour
     Data.Tracking.rows = int.Parse(rows.text);
     Data.Tracking.cols = int.Parse(cols.text);
     Data.Tracking.depthThreshold = float.Parse(depthThreshold.text);
+    Data.Tracking.profileNear = float.Parse(profileNear.text);
+    Data.Tracking.profileFar = float.Parse(profileFar.text);
 
     // camera    
     Data.Camera.resolutionIndex = cameraResolution.value;

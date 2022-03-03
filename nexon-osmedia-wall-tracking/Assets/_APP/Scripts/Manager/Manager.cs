@@ -6,6 +6,7 @@ public class Manager : MonoBehaviour
 {
   public bool isOnDebugDevice = false;
   public bool isOnDebugTracking = false;
+  public bool isOnDebugGui = true;
   DataManager dataManager;
   SettingsManager settingsManager;
   NetworkManager networkManager;
@@ -59,4 +60,10 @@ public class Manager : MonoBehaviour
     networkManager.Reset();
     trackingManager.Reset();
   }
+
+  #region Debug
+  public void ChangeDebugGUI(bool _isOnDebugGui) {
+    isOnDebugGui = _isOnDebugGui;
+  }
+  #endregion
 }

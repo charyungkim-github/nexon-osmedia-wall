@@ -14,7 +14,13 @@ public class CameraSettingsController : MonoBehaviour
   }
 
   void Update() {
-      
+  }
+
+  public void UpdateDepthCameraStatus() {
+    if(depthCameraHolder.childCount > 0) {
+      for(int i=0; i<depthCameraSettingHolder.childCount; i++)
+        depthCameraSettingHolder.GetChild(i).GetChild(1).GetComponent<Text>().text = depthCameraHolder.GetChild(i).GetComponent<RsDevice>().Streaming.ToString();
+    }
   }
 
   public void AddCameraSetting() {

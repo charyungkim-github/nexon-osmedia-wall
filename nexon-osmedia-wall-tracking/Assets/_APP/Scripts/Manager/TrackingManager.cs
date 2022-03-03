@@ -9,7 +9,7 @@ public class TrackingManager : MonoBehaviour
   public RawImage cameraFeed;
   public Transform depthCameraHolder;
   public GameObject depthCameraPrefab;  
-  public bool debugGUI = true;
+  public RsColorizer rsColorizer;
 
   Manager manager;
   RenderTexture cameraRenderTexture;
@@ -19,6 +19,9 @@ public class TrackingManager : MonoBehaviour
   int pixelWidth, pixelHeight;
   int rows, cols;
   float depthThreshold;
+
+  // profile
+  bool isProfileInitialized = false;
 
   // debug
   List<float> colorValues = new List<float>();
@@ -50,6 +53,14 @@ public class TrackingManager : MonoBehaviour
 
     // send result
     manager.SendTrackingData(resultData);
+
+    // on first setup :: need to wait until rs device connected
+    if(depthCameraHolder.childCount > 0 && !isProfileInitialized) {
+      if(depthCameraHolder.GetChild(0).GetComponent<RsDevice>().Streaming) {
+        SetupProfile();
+        isProfileInitialized = true;
+      }
+    }
   }
   #endregion
 
@@ -88,6 +99,9 @@ public class TrackingManager : MonoBehaviour
 
         // set active after setup device
         device.gameObject.SetActive(true);
+
+        // setup profile
+        SetupProfile();
       }
     }
 
@@ -122,6 +136,12 @@ public class TrackingManager : MonoBehaviour
     cameraFeed.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
     cameraFeed.texture = cameraRenderTexture;
   }
+
+  void SetupProfile() {
+    rsColorizer.colorScheme = RsColorizer.ColorScheme.WhiteToBlack;
+    rsColorizer.minDist = Data.Tracking.profileNear;
+    rsColorizer.maxDist = Data.Tracking.profileFar;
+  }
   #endregion
 
 
@@ -150,12 +170,11 @@ public class TrackingManager : MonoBehaviour
         if(!manager.isOnDebugTracking){
           
           // get color
-          // Color color = Utils.GetAvrColor((Texture2D)trackingTexture, x, height - y, pixelWidth, pixelHeight);
-          Color color = Utils.GetAvrColor((Texture2D)trackingTexture, x, height - y, 20, 20);
+          Color color = Utils.GetAvrColor((Texture2D)trackingTexture, x, height - y, pixelWidth/2, pixelHeight/2);
 
           // save result          
-          resultData.Add(color.b >= depthThreshold);
-          colorValues.Add(color.b);
+          resultData.Add(color.r >= depthThreshold);
+          colorValues.Add(color.r);
         }        
         else {
           
@@ -173,11 +192,10 @@ public class TrackingManager : MonoBehaviour
   }
   #endregion
 
-
   #region Debug
   void OnGUI() {
     if(isOnSetting) return;
-    if(!Data.Tracking.debug) return;
+    if(!manager.isOnDebugGui) return;
     if(resultData.Count < 1) return;
 
     int index = 0;
@@ -190,7 +208,7 @@ public class TrackingManager : MonoBehaviour
         // string val = string.Format("{0}:{1:N2}", index,colorValues[index]);
         string val = string.Format("{0:N2}", colorValues[index]);
         style.normal.textColor = resultData[index] ? Color.red : Color.gray;
-        GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), index.ToString(), style);
+        GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), val.ToString(), style);
         index ++;
       }
     }

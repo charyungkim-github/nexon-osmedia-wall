@@ -22,6 +22,8 @@ public class Data {
     public static int cols;
     public static float depthThreshold;
     public static bool debug;
+    public static float profileNear;
+    public static float profileFar;
   }
 
   public class Camera {
