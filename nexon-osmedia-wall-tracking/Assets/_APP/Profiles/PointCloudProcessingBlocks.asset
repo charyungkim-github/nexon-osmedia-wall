@@ -51,11 +51,11 @@ MonoBehaviour:
   m_Name: RsColorizer
   m_EditorClassIdentifier: 
   enabled: 1
-  visualPreset: 0
-  colorScheme: 2
-  histogramEqualization: 1
-  minDist: 0
-  maxDist: 16
+  visualPreset: 2
+  colorScheme: 1
+  histogramEqualization: 0
+  minDist: 0.3
+  maxDist: 1.5
 --- !u!114 &114340648865021418
 MonoBehaviour:
   m_ObjectHideFlags: 0

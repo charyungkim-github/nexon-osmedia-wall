@@ -5,7 +5,8 @@ using UnityEngine;
 public class Utils : MonoBehaviour{
   
   public static Color GetAvrColor(Texture2D texture, int x, int y, float width, float height) {
-
+    width = 10;
+    height = 10;
     Color color = new Color(0,0,0);
     for(int i = x; i < x + width; i++) {
       for(int j = y; j < y + height; j++) {

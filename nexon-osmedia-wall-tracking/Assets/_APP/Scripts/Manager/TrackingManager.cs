@@ -64,41 +64,41 @@ public class TrackingManager : MonoBehaviour
   public void Reset() {
 
     // create depth camera
-    for(int i=0; i<Data.Camera.cameraData.Count; i++) {
+    // for(int i=0; i<Data.Camera.cameraData.Count; i++) {
 
-      // create depth camera
-      if(i >= depthCameraHolder.childCount) {
-        GameObject depthCamera = Instantiate(depthCameraPrefab);
-        depthCamera.transform.SetParent(depthCameraHolder);
-      }
+    //   // create depth camera
+    //   if(i >= depthCameraHolder.childCount) {
+    //     GameObject depthCamera = Instantiate(depthCameraPrefab);
+    //     depthCamera.transform.SetParent(depthCameraHolder);
+    //   }
 
-      // target depth camera      
-      Transform targetDepthCamera = depthCameraHolder.GetChild(i);
+    //   // target depth camera      
+    //   Transform targetDepthCamera = depthCameraHolder.GetChild(i);
 
-      // set canvas properties
-      RectTransform sourceFeed = targetDepthCamera.GetComponent<RectTransform>();      
-      sourceFeed.localPosition = Vector3.zero;
-      sourceFeed.localScale = Vector3.one;
-      // sourceFeed.anchoredPosition = new Vector2(Data.Camera.cameraData[i].positionX, Data.Camera.cameraData[i].positionY);
-      sourceFeed.anchoredPosition = Utils.GetAnchoredPosition(Data.Camera.cameraData[i]);
-      sourceFeed.sizeDelta = new Vector2(Data.Camera.cameraData[i].width, Data.Camera.cameraData[i].height); 
-      sourceFeed.eulerAngles = new Vector3(0,0,Data.Camera.cameraData[i].rotationZ);
+    //   // set canvas properties
+    //   RectTransform sourceFeed = targetDepthCamera.GetComponent<RectTransform>();      
+    //   sourceFeed.localPosition = Vector3.zero;
+    //   sourceFeed.localScale = Vector3.one;
+    //   // sourceFeed.anchoredPosition = new Vector2(Data.Camera.cameraData[i].positionX, Data.Camera.cameraData[i].positionY);
+    //   sourceFeed.anchoredPosition = Utils.GetAnchoredPosition(Data.Camera.cameraData[i]);
+    //   sourceFeed.sizeDelta = new Vector2(Data.Camera.cameraData[i].width, Data.Camera.cameraData[i].height); 
+    //   sourceFeed.eulerAngles = new Vector3(0,0,Data.Camera.cameraData[i].rotationZ);
       
-      if(!manager.isOnDebugDevice) {
+    //   if(!manager.isOnDebugDevice) {
         
-        // set device properties
-        targetDepthCamera.GetChild(0).gameObject.SetActive(true);
-        RsDevice device = targetDepthCamera.GetComponentInChildren<RsDevice>();
-        device.DeviceConfiguration.RequestedSerialNumber = Data.Camera.cameraData[i].serialNumber;
-        device.DeviceConfiguration.Profiles[0].Width = Data.Camera.resolutionIndex == 0 ? 1280 : 640;      
-        device.DeviceConfiguration.Profiles[0].Height = Data.Camera.resolutionIndex == 0 ? 720 : 480;
-      }
-    }
+    //     // set device properties
+    //     targetDepthCamera.GetChild(0).gameObject.SetActive(true);
+    //     RsDevice device = targetDepthCamera.GetComponentInChildren<RsDevice>();
+    //     device.DeviceConfiguration.RequestedSerialNumber = Data.Camera.cameraData[i].serialNumber;
+    //     device.DeviceConfiguration.Profiles[0].Width = Data.Camera.resolutionIndex == 0 ? 1280 : 640;      
+    //     device.DeviceConfiguration.Profiles[0].Height = Data.Camera.resolutionIndex == 0 ? 720 : 480;
+    //   }
+    // }
 
-    // remove unused depth camera
-    for(int j=Data.Camera.cameraData.Count; j<depthCameraHolder.childCount; j++) {
-      Destroy(depthCameraHolder.GetChild(j).gameObject);
-    }
+    // // remove unused depth camera
+    // for(int j=Data.Camera.cameraData.Count; j<depthCameraHolder.childCount; j++) {
+    //   Destroy(depthCameraHolder.GetChild(j).gameObject);
+    // }
 
     // set size
     width = Data.Tracking.width;
@@ -143,21 +143,22 @@ public class TrackingManager : MonoBehaviour
       for (int x = 0; x < width; x += pixelWidth) {
 
         if(x + pixelWidth > width) continue;
+        if(y + pixelHeight > height) continue;
         
         if(!manager.isOnDebugTracking){
           
           // get color
-          Color color = Utils.GetCenterColor((Texture2D)trackingTexture, x, y, pixelWidth, pixelHeight);
+          Color color = Utils.GetAvrColor((Texture2D)trackingTexture, x, height - pixelHeight - y, pixelWidth, pixelHeight);
 
           // save result          
-          resultData.Add(color.r > depthThreshold);
-          colorValues.Add(color.r);
+          resultData.Add(color.b >= depthThreshold);
+          colorValues.Add(color.b);
         }        
         else {
           
           // get mouse position
           Vector2 centerPosition = new Vector2(x + (pixelWidth/2), y + (pixelHeight/2));
-          Vector2 mousePosition = new Vector2(Input.mousePosition.x, Data.Tracking.height-Input.mousePosition.y);
+          Vector2 mousePosition = new Vector2(Input.mousePosition.x, height-Input.mousePosition.y);
           float distance = Vector2.Distance(centerPosition, mousePosition);
           
           // sava data
@@ -181,8 +182,10 @@ public class TrackingManager : MonoBehaviour
       for (int x = 0; x < width; x += pixelWidth) {
 
         if(x + pixelWidth > width) continue;
+        if(y + pixelHeight > height) continue;
         
-        string val = string.Format("{0:N1}", colorValues[index]);
+        // string val = string.Format("{0}:{1:N2}", index,colorValues[index]);
+        string val = string.Format("{0:N2}", colorValues[index]);
         style.normal.textColor = resultData[index] ? Color.red : Color.gray;
         GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), index.ToString(), style);
         index ++;

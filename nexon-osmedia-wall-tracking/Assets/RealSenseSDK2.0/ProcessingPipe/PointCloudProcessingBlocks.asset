@@ -52,10 +52,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabled: 1
   visualPreset: 0
-  colorScheme: 0
-  histogramEqualization: 1
-  minDist: 0
-  maxDist: 16
+  colorScheme: 2
+  histogramEqualization: 0
+  minDist: 0.3
+  maxDist: 1
 --- !u!114 &114340648865021418
 MonoBehaviour:
   m_ObjectHideFlags: 0
