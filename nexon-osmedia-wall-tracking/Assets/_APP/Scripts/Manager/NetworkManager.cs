@@ -51,22 +51,6 @@ public class NetworkManager : MonoBehaviour
     Debug.Log("socket connected");
   }
 
-  // public void SendTrackingData(List<bool> resultData) {
-    
-  //   if(debugServer) return;
-  //   if(!socket.IsConnected) return;
-  //   if(resultData.Count < 1) return;
-
-  //   JSONObject json = new JSONObject();
-  //   JSONObject jsonArray = new JSONObject(JSONObject.Type.ARRAY);
-  //   json.AddField("activatedIndexList", jsonArray);
-  //   for(int i=0; i<resultData.Count; i++) {
-  //     if(resultData[i]) jsonArray.Add(i);
-  //   }
-
-  //   socket.Emit("tracking-data", json);
-  //   // Debug.Log("send : " + json);
-  // }  
   public void SendTrackingData(List<bool> indexData, List<float> valueData) {
     
     if(debugServer) return;
