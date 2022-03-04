@@ -18,7 +18,7 @@ public class TrackingManager : MonoBehaviour
   int width, height;
   int pixelWidth, pixelHeight;
   int rows, cols;
-  float depthThreshold;
+  [HideInInspector] public float depthThreshold;
 
   // profile
   bool isProfileInitialized = false;
@@ -45,7 +45,7 @@ public class TrackingManager : MonoBehaviour
 
   void Update() {
 
-    if(isOnSetting) return;
+    // if(isOnSetting) return;
     
     // tracking
     UpdateTexture();
@@ -68,8 +68,8 @@ public class TrackingManager : MonoBehaviour
   #region Activatet Tracking
   public void ToggleActive(bool _isOnSetting) {
     isOnSetting = _isOnSetting;
-    if(isOnSetting) cameraFeed.gameObject.SetActive(false);
-    else cameraFeed.gameObject.SetActive(true);
+    // if(isOnSetting) cameraFeed.gameObject.SetActive(false);
+    // else cameraFeed.gameObject.SetActive(true);
   }
 
   public void Reset() {
@@ -170,7 +170,8 @@ public class TrackingManager : MonoBehaviour
         if(!manager.debugTracking){
           
           // get color
-          Color color = Utils.GetAvrColor((Texture2D)trackingTexture, x, height - y, pixelWidth/2, pixelHeight/2);
+          // Color color = Utils.GetAvrColor((Texture2D)trackingTexture, x, height - y, 10, 10);
+          Color color = Utils.GetCenterColor((Texture2D)trackingTexture, x, height - pixelHeight - y, pixelWidth, pixelHeight);
 
           // save result          
           resultData.Add(color.r >= depthThreshold);
@@ -194,7 +195,7 @@ public class TrackingManager : MonoBehaviour
 
   #region Debug
   void OnGUI() {
-    if(isOnSetting) return;
+    // if(isOnSetting) return;
     if(!manager.debugGUI) return;
     if(resultData.Count < 1) return;
 

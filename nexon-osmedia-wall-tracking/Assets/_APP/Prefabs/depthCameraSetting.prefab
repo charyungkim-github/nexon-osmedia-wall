@@ -370,6 +370,7 @@ GameObject:
   - component: {fileID: 2019933507841485754}
   - component: {fileID: 5303503902198793638}
   - component: {fileID: 8563120479104464111}
+  - component: {fileID: 3569091054427113733}
   m_Layer: 5
   m_Name: inputRotY
   m_TagString: Untagged
@@ -501,6 +502,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &3569091054427113733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3288670381598954019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &3889497740286161893
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,6 +685,7 @@ GameObject:
   - component: {fileID: 6729058701311073102}
   - component: {fileID: 1286792177148911306}
   - component: {fileID: 1496309066900632406}
+  - component: {fileID: 1363061819789108788}
   m_Layer: 5
   m_Name: inputScaleY
   m_TagString: Untagged
@@ -802,6 +817,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &1363061819789108788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257594451694413219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &4481764347196503845
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +842,7 @@ GameObject:
   - component: {fileID: 5199429476455502576}
   - component: {fileID: 1204993460324123609}
   - component: {fileID: 9206823093127462152}
+  - component: {fileID: 327624080545641951}
   m_Layer: 5
   m_Name: inputPosZ
   m_TagString: Untagged
@@ -945,6 +974,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &327624080545641951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4481764347196503845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &5374114678610310561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,6 +1315,7 @@ GameObject:
   - component: {fileID: 4932084086670409055}
   - component: {fileID: 7648497046336335301}
   - component: {fileID: 2190680183590435027}
+  - component: {fileID: 4873682936323917662}
   m_Layer: 5
   m_Name: inputRotZ
   m_TagString: Untagged
@@ -1404,6 +1447,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &4873682936323917662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6110378053809051502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &6462930739815092787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,6 +1709,7 @@ GameObject:
   - component: {fileID: 6462930740627910308}
   - component: {fileID: 6462930740627910309}
   - component: {fileID: 6462930740627910306}
+  - component: {fileID: 8953386216520457160}
   m_Layer: 5
   m_Name: inputPosX
   m_TagString: Untagged
@@ -1784,6 +1841,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &8953386216520457160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462930740627910304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &6462930740636401029
 GameObject:
   m_ObjectHideFlags: 0
@@ -1842,7 +1912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47341868, g: 0.8277796, b: 0.9528302, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2000,7 +2070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47341868, g: 0.8277796, b: 0.9528302, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2173,6 +2243,7 @@ GameObject:
   - component: {fileID: 6462930741535957236}
   - component: {fileID: 6462930741535957237}
   - component: {fileID: 6462930741535957234}
+  - component: {fileID: 7705869399610135747}
   m_Layer: 5
   m_Name: inputSerialNumber
   m_TagString: Untagged
@@ -2304,6 +2375,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &7705869399610135747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462930741535957232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0
 --- !u!1 &6602992921304258662
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,6 +2400,7 @@ GameObject:
   - component: {fileID: 1155908215921309546}
   - component: {fileID: 1502358577886975181}
   - component: {fileID: 8402484466252278852}
+  - component: {fileID: 710062529513781508}
   m_Layer: 5
   m_Name: inputScaleX
   m_TagString: Untagged
@@ -2447,6 +2532,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &710062529513781508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6602992921304258662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &6813457713187347695
 GameObject:
   m_ObjectHideFlags: 0
@@ -2617,6 +2715,7 @@ GameObject:
   - component: {fileID: 4739806914837798523}
   - component: {fileID: 5999600316553021609}
   - component: {fileID: 2784195696826800789}
+  - component: {fileID: 854532450950320922}
   m_Layer: 5
   m_Name: inputScaleZ
   m_TagString: Untagged
@@ -2748,6 +2847,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &854532450950320922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6968771009478611814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &7120470349798787540
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,6 +3109,7 @@ GameObject:
   - component: {fileID: 1182949017853158940}
   - component: {fileID: 3956014672334920981}
   - component: {fileID: 3675168561816631855}
+  - component: {fileID: 4895442075870001296}
   m_Layer: 5
   m_Name: inputPosY
   m_TagString: Untagged
@@ -3128,6 +3241,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &4895442075870001296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419600002192822235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &7749907635425865818
 GameObject:
   m_ObjectHideFlags: 0
@@ -3265,7 +3391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47341868, g: 0.8277796, b: 0.9528302, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3456,6 +3582,7 @@ GameObject:
   - component: {fileID: 9008169649279865203}
   - component: {fileID: 6056110638313044846}
   - component: {fileID: 1399925309066395697}
+  - component: {fileID: 5741900363438869864}
   m_Layer: 5
   m_Name: inputRotX
   m_TagString: Untagged
@@ -3587,6 +3714,19 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
+--- !u!114 &5741900363438869864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8921069597929453469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b733b3338c1d0c4c964ae0779808960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  step: 0.1
 --- !u!1 &8976659698010677758
 GameObject:
   m_ObjectHideFlags: 0

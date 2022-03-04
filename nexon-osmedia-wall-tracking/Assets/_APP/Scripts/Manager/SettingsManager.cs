@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class SettingsManager : MonoBehaviour
 {
   #region Public Variables
+  [Header("Manager")]
+  public TrackingManager trackingManager;
+
   [Header("General")]
   public GameObject settingsHolder;
   public GameObject[] settings;
@@ -14,28 +17,28 @@ public class SettingsManager : MonoBehaviour
   [Header("Network")]
   public Text networkStatus;
   public Text networkConnection;
-  public InputField ip;
-  public InputField port;
+  public InputfieldController ip;
+  public InputfieldController port;
 
   [Header("Tracking")]
   public Text trackingStatus;
-  public InputField width;
-  public InputField height;
-  public InputField rows;
-  public InputField cols;
-  public InputField depthThreshold;
-  public InputField profileNear;
-  public InputField profileFar;
+  public InputfieldController width;
+  public InputfieldController height;
+  public InputfieldController rows;
+  public InputfieldController cols;
+  public InputfieldController depthThreshold;
+  public InputfieldController profileNear;
+  public InputfieldController profileFar;
 
   [Header("Camera")]
   public CameraSettingsController cameraSettingsController;
   public Dropdown cameraResolution;
-  public InputField cameraPositionX;
-  public InputField cameraPositionY;
-  public InputField cameraPositionZ;
-  public InputField size;
-  public InputField near;
-  public InputField far;
+  public InputfieldController cameraPositionX;
+  public InputfieldController cameraPositionY;
+  public InputfieldController cameraPositionZ;
+  public InputfieldController size;
+  public InputfieldController near;
+  public InputfieldController far;
   #endregion
 
 
@@ -51,6 +54,9 @@ public class SettingsManager : MonoBehaviour
     // manager
     manager = GetComponentInParent<Manager>();
 
+    // event listner
+    AddDebugEventListner() ;
+
     // reset
     CloseSetting();
   }
@@ -62,6 +68,8 @@ public class SettingsManager : MonoBehaviour
     // check for device status
     if(isOnSetting) cameraSettingsController.UpdateDepthCameraStatus();
   }
+
+  
   #endregion
 
 
@@ -110,8 +118,8 @@ public class SettingsManager : MonoBehaviour
 
     // network
     networkStatus.text = string.Format("{0}, {1}", Data.Network.ip, Data.Network.port);
-    ip.text = Data.Network.ip;
-    port.text = Data.Network.port;
+    ip._string = Data.Network.ip;
+    port._string = Data.Network.port;
 
     // tracking
     trackingStatus.text = string.Format(
@@ -120,22 +128,22 @@ public class SettingsManager : MonoBehaviour
       Data.Tracking.cols, Data.Tracking.rows, 
       Data.Tracking.depthThreshold
     );
-    width.text = Data.Tracking.width.ToString();
-    height.text = Data.Tracking.height.ToString();
-    rows.text = Data.Tracking.rows.ToString();
-    cols.text = Data.Tracking.cols.ToString();
-    depthThreshold.text = Data.Tracking.depthThreshold.ToString();
-    profileNear.text = Data.Tracking.profileNear.ToString();
-    profileFar.text = Data.Tracking.profileFar.ToString();
+    width._int = Data.Tracking.width;
+    height._int = Data.Tracking.height;
+    rows._int = Data.Tracking.rows;
+    cols._int = Data.Tracking.cols;
+    depthThreshold._float = Data.Tracking.depthThreshold;
+    profileNear._float = Data.Tracking.profileNear;
+    profileFar._float = Data.Tracking.profileFar;
     
     // camera
     cameraResolution.value = Data.Camera.resolutionIndex;    
-    cameraPositionX.text = Data.Camera.position.x.ToString();
-    cameraPositionY.text = Data.Camera.position.y.ToString();
-    cameraPositionZ.text = Data.Camera.position.z.ToString();
-    size.text = Data.Camera.size.ToString();    
-    near.text = Data.Camera.near.ToString();    
-    far.text = Data.Camera.far.ToString();    
+    cameraPositionX._float = Data.Camera.position.x;
+    cameraPositionY._float = Data.Camera.position.y;
+    cameraPositionZ._float = Data.Camera.position.z;
+    size._float = Data.Camera.size;    
+    near._float = Data.Camera.near;    
+    far._float = Data.Camera.far;    
     cameraSettingsController.LoadData(Data.Camera.cameraData);
   }
 
@@ -144,28 +152,54 @@ public class SettingsManager : MonoBehaviour
     // save on data class
 
     // network
-    Data.Network.ip = ip.text;
-    Data.Network.port = port.text;    
+    Data.Network.ip = ip._string;
+    Data.Network.port = port._string;    
 
     // tracking
-    Data.Tracking.width = int.Parse(width.text);
-    Data.Tracking.height = int.Parse(height.text);
-    Data.Tracking.rows = int.Parse(rows.text);
-    Data.Tracking.cols = int.Parse(cols.text);
-    Data.Tracking.depthThreshold = float.Parse(depthThreshold.text);
-    Data.Tracking.profileNear = float.Parse(profileNear.text);
-    Data.Tracking.profileFar = float.Parse(profileFar.text);
+    Data.Tracking.width = width._int;
+    Data.Tracking.height = height._int;
+    Data.Tracking.rows = rows._int;
+    Data.Tracking.cols = cols._int;
+    Data.Tracking.depthThreshold = depthThreshold._float;
+    Data.Tracking.profileNear = profileNear._float;
+    Data.Tracking.profileFar = profileFar._float;
 
     // camera    
     Data.Camera.resolutionIndex = cameraResolution.value;
-    Data.Camera.position = new Vector3(float.Parse(cameraPositionX.text), float.Parse(cameraPositionY.text), float.Parse(cameraPositionZ.text));
-    Data.Camera.size = float.Parse(size.text);
-    Data.Camera.near = float.Parse(near.text);
-    Data.Camera.far = float.Parse(far.text);
+    Data.Camera.position = new Vector3(cameraPositionX._float, cameraPositionY._float, cameraPositionZ._float);
+    Data.Camera.size = size._float;
+    Data.Camera.near = near._float;
+    Data.Camera.far = far._float;
     Data.Camera.cameraData = cameraSettingsController.GetCameraData();
     
     // save on json
     manager.SaveSettingsInJson();
   }
+  #endregion
+
+
+  #region Debug Event Listner
+  void AddDebugEventListner() {
+    depthThreshold.AddDebugEventListner(UpdateDebugValues);
+    profileNear.AddDebugEventListner(UpdateDebugValues);
+    profileFar.AddDebugEventListner(UpdateDebugValues);
+    cameraPositionX.AddDebugEventListner(UpdateDebugValues);
+    cameraPositionY.AddDebugEventListner(UpdateDebugValues);
+    cameraPositionZ.AddDebugEventListner(UpdateDebugValues);
+    size.AddDebugEventListner(UpdateDebugValues);
+    near.AddDebugEventListner(UpdateDebugValues);
+    far.AddDebugEventListner(UpdateDebugValues);
+  }
+
+  void UpdateDebugValues(string value) {
+    
+    trackingManager.depthThreshold = depthThreshold._float;
+    trackingManager.rsColorizer.minDist = profileNear._float;
+    trackingManager.rsColorizer.maxDist = profileFar._float;
+    trackingManager.trackingCamera.transform.position = new Vector3(cameraPositionX._float, cameraPositionY._float, cameraPositionZ._float);
+    trackingManager.trackingCamera.orthographicSize = size._float;
+    trackingManager.trackingCamera.nearClipPlane = near._float;
+    trackingManager.trackingCamera.farClipPlane = far._float;
+  }  
   #endregion
 }

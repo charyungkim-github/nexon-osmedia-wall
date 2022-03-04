@@ -61,6 +61,11 @@ public class Manager : MonoBehaviour
     trackingManager.Reset();
   }
 
+  public void CloseSettings() {
+    networkManager.Reset();
+    trackingManager.Reset();
+  }
+
   #region Debug
   public void ChangeDebugGUI(bool _debugGUI) {
     debugGUI = _debugGUI;
