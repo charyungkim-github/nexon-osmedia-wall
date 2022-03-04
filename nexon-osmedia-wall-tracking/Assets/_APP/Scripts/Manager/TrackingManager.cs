@@ -14,7 +14,8 @@ public class TrackingManager : MonoBehaviour
   Manager manager;
   RenderTexture cameraRenderTexture;
   Texture2D trackingTexture;
-  List<bool> resultData = new List<bool>();
+  List<bool> indexData = new List<bool>();
+  List<float> valueData = new List<float>(); 
   int width, height;
   int pixelWidth, pixelHeight;
   int rows, cols;
@@ -24,7 +25,6 @@ public class TrackingManager : MonoBehaviour
   bool isProfileInitialized = false;
 
   // debug
-  List<float> colorValues = new List<float>();
   GUIStyle style = new GUIStyle();
   bool isOnSetting = false;
 
@@ -52,7 +52,7 @@ public class TrackingManager : MonoBehaviour
     GetTextureColors();
 
     // send result
-    manager.SendTrackingData(resultData);
+    manager.SendTrackingData(indexData, valueData);
 
     // on first setup :: need to wait until rs device connected
     if(depthCameraHolder.childCount > 0 && !isProfileInitialized) {
@@ -68,8 +68,6 @@ public class TrackingManager : MonoBehaviour
   #region Activatet Tracking
   public void ToggleActive(bool _isOnSetting) {
     isOnSetting = _isOnSetting;
-    // if(isOnSetting) cameraFeed.gameObject.SetActive(false);
-    // else cameraFeed.gameObject.SetActive(true);
   }
 
   public void Reset() {
@@ -158,8 +156,8 @@ public class TrackingManager : MonoBehaviour
   void GetTextureColors() {
     
     // reset
-    resultData.Clear();    
-    colorValues.Clear();
+    indexData.Clear();    
+    valueData.Clear();
 
     for (int y = 0; y < height; y += pixelHeight) {
       for (int x = 0; x < width; x += pixelWidth) {
@@ -174,8 +172,8 @@ public class TrackingManager : MonoBehaviour
           Color color = Utils.GetCenterColor((Texture2D)trackingTexture, x, height - pixelHeight - y, pixelWidth, pixelHeight);
 
           // save result          
-          resultData.Add(color.r >= depthThreshold);
-          colorValues.Add(color.r);
+          indexData.Add(color.r >= depthThreshold);
+          valueData.Add(color.r);
         }        
         else {
           
@@ -185,8 +183,8 @@ public class TrackingManager : MonoBehaviour
           float distance = Vector2.Distance(centerPosition, mousePosition);
           
           // sava data
-          resultData.Add(distance < 200);
-          colorValues.Add(distance);
+          indexData.Add(distance < 200);
+          valueData.Add(distance);
         }
       }
     }
@@ -197,7 +195,7 @@ public class TrackingManager : MonoBehaviour
   void OnGUI() {
     // if(isOnSetting) return;
     if(!manager.debugGUI) return;
-    if(resultData.Count < 1) return;
+    if(indexData.Count < 1) return;
 
     int index = 0;
     for (int y = 0; y < height; y += pixelHeight) {
@@ -206,9 +204,9 @@ public class TrackingManager : MonoBehaviour
         if(x + pixelWidth > width) continue;
         if(y + pixelHeight > height) continue;
         
-        // string val = string.Format("{0}:{1:N2}", index,colorValues[index]);
-        string val = string.Format("{0:N2}", colorValues[index]);
-        style.normal.textColor = resultData[index] ? Color.red : Color.gray;
+        // string val = string.Format("{0}:{1:N2}", index,valueData[index]);
+        string val = string.Format("{0:N2}", valueData[index]);
+        style.normal.textColor = indexData[index] ? Color.red : Color.gray;
         GUI.Box(new Rect(x, y, pixelWidth, pixelHeight), val.ToString(), style);
         index ++;
       }

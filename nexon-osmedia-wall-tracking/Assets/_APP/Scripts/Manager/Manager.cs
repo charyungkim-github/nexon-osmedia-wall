@@ -44,8 +44,8 @@ public class Manager : MonoBehaviour
     trackingManager.ToggleActive(isOnSetting);
   }
 
-  public void SendTrackingData(List<bool> resultData) {
-    networkManager.SendTrackingData(resultData);
+  public void SendTrackingData(List<bool> indexData,  List<float> valueData) {
+    networkManager.SendTrackingData(indexData, valueData);
   }
 
   public void SaveSettingsInJson() {

@@ -11,19 +11,21 @@ http.listen(port, function(){
 
 io.on('connection', function(socket){
 
-  // on connect
+  /* On Connect */
   console.log('connected', socket.id)
   socket.emit("socket-connected");
 
-  // from tracking app
+  /* From tracking app */
   socket.on('tracking-data', function(data) {
       console.log('received : ', data)
 
       // send positions to game app
       io.emit('tracking-data', data)
+
+      // DATA KEYS :: indexData, valueData
   })
 
-  // on disconnect
+  /* On Disconnect */
   socket.on('disconnect', function() {
       console.log('disconnect', socket.id)
   })
